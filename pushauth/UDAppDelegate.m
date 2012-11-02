@@ -7,7 +7,7 @@
 //
 
 #import "UDAppDelegate.h"   
-#import "UDPushNotificationCenterFactory.h"
+#import "UDPushNotificationFactory.h"
 
 @implementation UDAppDelegate
 #pragma mark - Properties
@@ -19,7 +19,10 @@
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     
     self.pushNotificatonCenter = [UDPushNotificationCenterFactory makePushNotificationCenter];
+    self.deviceIDHandler = [UDDeviceIDHandlerFactory makeDeviceIDHandler];
     
+    
+    [self.pushNotificatonCenter addObserver:self.deviceIDHandler];
     
     return YES;
 }
