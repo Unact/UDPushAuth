@@ -56,20 +56,25 @@
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
-    //[PushAuth registerForPushWithToken:deviceToken];
-    //[PushAuth validateAuthToken];
-    
+#if DEBUG
     NSLog(@"Device token: %@", deviceToken);
+#endif
+    
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
+#if DEBUG
 	NSLog(@"Failed to get token, error: %@", error);
+#endif
+    
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    NSLog(@"user info %@",userInfo);
+#if DEBUG
+    NSLog(@"Push token user info: %@",userInfo);
+#endif
     
     [self.pushNotificatonCenter processPushNotification:userInfo];
 }
