@@ -39,6 +39,8 @@
     [mutableNotificationObservers addObject:observer];
     
     self.notificationObservers = mutableNotificationObservers;
+    
+    [self refreshProcessorsNotificationObserverList];
 }
 
 - (void) removeObserver:(id)observer{
@@ -47,6 +49,14 @@
     [mutableNotificationObservers removeObject:observer];
     
     self.notificationObservers = mutableNotificationObservers;
+    
+    [self refreshProcessorsNotificationObserverList];
+}
+
+- (void) refreshProcessorsNotificationObserverList{
+    for (id <UDPushNotificationProcessable> notificationProcessor in self.notificationProcessors) {
+        notificationProcessor.notificationObservers = self.notificationObservers;
+    }
 }
 
 - (void) addPushNotificationProcessor:(id <UDPushNotificationProcessable>)notificationProcessor{
