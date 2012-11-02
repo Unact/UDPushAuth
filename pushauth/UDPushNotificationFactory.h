@@ -9,7 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "UDPushNotificationCenter.h"
 #import "UDUPushNotificationProcessorBasic.h"
+#import "UDUPushNotificationProcessorWrk.h"
+#import "UDDeviceIDHandler.h"
 
 @interface UDPushNotificationCenterFactory : NSObject
 + (UDPushNotificationCenter *) makePushNotificationCenter;
+@end
+
+@interface UDDeviceIDHandlerFactory: NSObject
++ (UDDeviceIDHandler *) makeDeviceIDHandler;
 @end
