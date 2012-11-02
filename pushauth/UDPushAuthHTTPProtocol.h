@@ -10,7 +10,7 @@
 
 @protocol UDPushAuthHTTPProtocol <NSObject>
 @property (strong,nonatomic) NSURL *uPushAuthServerURL;
-- (void) registerDevice;
-- (void) activateDevice:(NSString *) deviceID withActivationCode:(NSString *) activationCode;
-- (void) authenticateDevice:(NSString *) deviceID;
+- (void) registerDeviceWithCompleteonHandler:(void ( ^ ) (NSString *deviceID, BOOL isActivated)) completeonHandler;
+- (void) activateDevice:(NSString *) deviceID WithActivationCode:(NSString *) activationCode CompleteonHandler:(void ( ^ ) (BOOL activationStatus)) completeonHandler;
+- (void) authenticateDevice:(NSString *) deviceID WithCompleteonHandler:(void ( ^ ) (NSString *authCode)) completeonHandler;
 @end
