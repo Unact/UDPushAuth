@@ -9,11 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "UDPushAuthHTTPProtocol.h"
 #import "UDPushAuthStorageProtocol.h"
+#import "UDDeviceIDHandlerProtocol.h"
 
-@interface UDDeviceIDHandler : NSObject
-@property (strong,nonatomic) NSString *deviceId;
+@interface UDDeviceIDHandler : NSObject <UDDeviceIDHandlerProtocol>
 @property (strong,nonatomic) id <UDPushAuthHTTPProtocol> requestHandler;
 @property (strong,nonatomic) id <UDPushAuthStorageProtocol> storage;
-- (void) registerDevice;
-- (void) activateDeviceWithActivationCode:(NSString *) activationCode;
 @end

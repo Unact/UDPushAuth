@@ -52,6 +52,7 @@
 		F30F6DED1643E83C0010F3DE /* UDPushNotificationCenterFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UDPushNotificationCenterFactory.m; sourceTree = "<group>"; };
 		F30F6DEF1643FE2F0010F3DE /* UDPushAuthHTTPProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UDPushAuthHTTPProtocol.h; sourceTree = "<group>"; };
 		F30F6DF01644018A0010F3DE /* UDPushAuthStorageProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UDPushAuthStorageProtocol.h; sourceTree = "<group>"; };
+		F3393DF9164413330032FBDC /* UDDeviceIDHandlerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UDDeviceIDHandlerProtocol.h; sourceTree = "<group>"; };
 		F35BB06D1642A205003682FA /* pushauth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pushauth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F35BB0711642A205003682FA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F35BB0731642A205003682FA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -143,6 +144,7 @@
 				F35BB0781642A205003682FA /* Supporting Files */,
 				F30F6DF01644018A0010F3DE /* UDPushAuthStorageProtocol.h */,
 				F30F6DEF1643FE2F0010F3DE /* UDPushAuthHTTPProtocol.h */,
+				F3393DF9164413330032FBDC /* UDDeviceIDHandlerProtocol.h */,
 				F30F6DE21642A9530010F3DE /* UDDeviceIDHandler.h */,
 				F30F6DE31642A9530010F3DE /* UDDeviceIDHandler.m */,
 				F30F6DEC1643E83C0010F3DE /* UDPushNotificationCenterFactory.h */,

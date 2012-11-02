@@ -8,15 +8,28 @@
 
 #import "UDDeviceIDHandler.h"
 
+@interface UDDeviceIDHandler()
+@end
+
 @implementation UDDeviceIDHandler
-#pragma mark - Methods
+
+#pragma mark - UDDeviceIDHandlerProtocol
+@synthesize deviceId = _deviceId;
 
 - (void) registerDevice{
-    
+    [self.requestHandler registerDeviceWithCompleteonHandler:^(NSString *deviceID, BOOL isActivated){
+        if (deviceID!= nil && ![deviceID isEqualToString:self.storage.deviceID]) {
+            self.storage.deviceID = deviceID;
+        }
+    }];
 }
 
 - (void) activateDeviceWithActivationCode:(NSString *) activationCode{
-    
+    if (self.storage.deviceID != nil && activationCode != nil) {
+        [self.requestHandler activateDevice:self.storage.deviceID WithActivationCode:activationCode CompleteonHandler:^(BOOL activationStatus){
+        
+        }];
+    }
 }
 
 @end
