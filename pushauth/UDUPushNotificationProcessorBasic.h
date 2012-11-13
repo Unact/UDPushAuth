@@ -1,14 +1,13 @@
 //
-//  UDPushNotificationProcessorUNProtocol.h
+//  UDUPushNotificationProcessorBasic.h
 //  pushauth
 //
-//  Created by kovtash on 02.11.12.
+//  Created by kovtash on 13.11.12.
 //  Copyright (c) 2012 unact. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "UDPushNotificationProcessable.h"
+#import "UDUPushNotificationProcessorAbstract.h"
 
-@interface UDUPushNotificationProcessorBasic : NSObject <UDPushNotificationProcessable>
-- (void) performActionForKey:(NSString *) key andObject:(id) object;
+@interface UDUPushNotificationProcessorBasic : UDUPushNotificationProcessorAbstract
+
 @end

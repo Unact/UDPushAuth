@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 unact. All rights reserved.
 //
 
-#import "UDUPushNotificationProcessorBasic.h"
+#import "UDUPushNotificationProcessorAbstract.h"
 
-@interface UDUPushNotificationProcessorWrk : UDUPushNotificationProcessorBasic
+@interface UDUPushNotificationProcessorWrk : UDUPushNotificationProcessorAbstract
 
 @end

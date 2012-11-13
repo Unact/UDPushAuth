@@ -15,10 +15,10 @@
 + (id) pushNotificationCenter{
     UDPushNotificationCenterAbstract *pushNotificationCenter = [[UDPushNotificationCenterAbstract alloc] init];
 #if DEBUG
-    [pushNotificationCenter addPushNotificationProcessor:[[UDUPushNotificationProcessorBasic alloc] init]];
+    [pushNotificationCenter addPushNotificationProcessor:[UDUPushNotificationProcessorBasic notificationProcessor]];
 #endif
     
-    [pushNotificationCenter addPushNotificationProcessor:[[UDUPushNotificationProcessorWrk alloc] init]];
+    [pushNotificationCenter addPushNotificationProcessor:[UDUPushNotificationProcessorWrk notificationProcessor]];
     
     return pushNotificationCenter;
 }

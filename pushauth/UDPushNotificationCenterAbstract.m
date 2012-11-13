@@ -85,7 +85,7 @@
 }
 
 + (id) pushNotificationCenter{
-    return [[UDPushNotificationCenterAbstract alloc] init];
+    return [[[self class] alloc] init];;
 }
 
 @end
