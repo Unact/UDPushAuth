@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol UDDeviceIDHandlerProtocol <NSObject>
+@protocol UDPushAuthCodeRetrievable <NSObject>
 @property (nonatomic,readonly) NSString *deviceId;
-- (void) registerDevice;
+- (void) registerDeviceWithPushToken:(NSData *) pushToken;
 - (void) activateDeviceWithActivationCode:(NSString *) activationCode;
+- (void) getAuthCode;
 @end

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol UDPushAuthStorageProtocol <NSObject>
-@property (strong,nonatomic) NSString *deviceID;
-@property (strong,nonatomic) NSString *accessToken;
+@protocol UDPushAuthStorageDelegate <NSObject>
+@property (readwrite) NSString *deviceID;
+@property (readwrite) NSString *accessToken;
 @end

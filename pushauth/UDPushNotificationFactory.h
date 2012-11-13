@@ -10,12 +10,12 @@
 #import "UDPushNotificationCenter.h"
 #import "UDUPushNotificationProcessorBasic.h"
 #import "UDUPushNotificationProcessorWrk.h"
-#import "UDDeviceIDHandler.h"
+#import "UDPushAuthCodeRetriever.h"
 
 @interface UDPushNotificationCenterFactory : NSObject
 + (UDPushNotificationCenter *) makePushNotificationCenter;
 @end
 
 @interface UDDeviceIDHandlerFactory: NSObject
-+ (UDDeviceIDHandler *) makeDeviceIDHandler;
++ (UDPushAuthCodeRetriever *) makeDeviceIDHandler;
 @end

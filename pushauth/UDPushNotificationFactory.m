@@ -7,6 +7,10 @@
 //
 
 #import "UDPushNotificationFactory.h"
+#import "UDPushAuthRequestBasic.h"
+#import "UDPushAuthStorageBasic.h"
+
+#define AUTH_SERVER_URL @"https://hqvsrv73.unact.ru/a/UPushAuth"
 
 @implementation UDPushNotificationCenterFactory
 
@@ -26,9 +30,12 @@
 
 @implementation UDDeviceIDHandlerFactory
 
-+ (UDDeviceIDHandler *) makeDeviceIDHandler{
-    UDDeviceIDHandler *deviceIDHandler = [[UDDeviceIDHandler alloc] init];
++ (UDPushAuthCodeRetriever *) makeDeviceIDHandler{
+    UDPushAuthCodeRetriever *deviceIDHandler = [[UDPushAuthCodeRetriever alloc] init];
+    deviceIDHandler.requestDelegate = [[UDPushAuthRequestBasic alloc] init];
+    deviceIDHandler.storageDelegate = [[UDPushAuthStorageBasic alloc] init];
     
+    deviceIDHandler.requestDelegate.uPushAuthServerURL = [NSURL URLWithString:AUTH_SERVER_URL];
     
     return deviceIDHandler;
 }

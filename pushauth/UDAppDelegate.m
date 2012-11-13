@@ -19,10 +19,10 @@
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     
     self.pushNotificatonCenter = [UDPushNotificationCenterFactory makePushNotificationCenter];
-    self.deviceIDHandler = [UDDeviceIDHandlerFactory makeDeviceIDHandler];
+    self.authCodeRetriever = [UDDeviceIDHandlerFactory makeDeviceIDHandler];
     
     
-    [self.pushNotificatonCenter addObserver:self.deviceIDHandler];
+    [self.pushNotificatonCenter addObserver:self.authCodeRetriever];
     
     return YES;
 }
@@ -60,6 +60,8 @@
     NSLog(@"Device token: %@", deviceToken);
 #endif
     
+    [self.authCodeRetriever registerDeviceWithPushToken:deviceToken];
+    [self.authCodeRetriever getAuthCode];
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
@@ -80,3 +82,18 @@
 }
 
 @end
+
+#if DEBUG
+@implementation NSURLRequest(AllowAllCerts)
+
++ (BOOL) allowsAnyHTTPSCertificateForHost:(NSString *) host {
+    return YES;
+}
+@end
+#endif
+
+
+
+
+
+

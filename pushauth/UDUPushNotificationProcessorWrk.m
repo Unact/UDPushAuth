@@ -7,7 +7,7 @@
 //
 
 #import "UDUPushNotificationProcessorWrk.h"
-#import "UDDeviceIDHandlerProtocol.h"
+#import "UDPushAuthCodeRetriever.h"
 
 @implementation UDUPushNotificationProcessorWrk
 
@@ -22,7 +22,7 @@
 
 - (void) processActivationCode:(NSString *) activationCode{
     for (id observer in self.notificationObservers) {
-        if ([observer conformsToProtocol:@protocol(UDDeviceIDHandlerProtocol) ]) {
+        if ([observer conformsToProtocol:@protocol(UDPushAuthCodeRetrievable) ]) {
             [observer activateDeviceWithActivationCode:activationCode];
         }
     }
