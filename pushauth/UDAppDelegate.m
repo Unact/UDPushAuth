@@ -7,7 +7,6 @@
 //
 
 #import "UDAppDelegate.h"   
-#import "UDPushNotificationFactory.h"
 
 @implementation UDAppDelegate
 #pragma mark - Properties
@@ -18,9 +17,8 @@
     // Override point for customization after application launch.
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     
-    self.pushNotificatonCenter = [UDPushNotificationCenterFactory makePushNotificationCenter];
-    self.authCodeRetriever = [UDDeviceIDHandlerFactory makeDeviceIDHandler];
-    
+    self.pushNotificatonCenter = [UDPushNotificationCenter pushNotificationCenter];
+    self.authCodeRetriever = [UDPushAuthCodeRetriever codeRetriever];
     
     [self.pushNotificatonCenter addObserver:self.authCodeRetriever];
     

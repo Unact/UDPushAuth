@@ -2,85 +2,24 @@
 //  UDPushNotificationCenter.m
 //  pushauth
 //
-//  Created by kovtash on 02.11.12.
+//  Created by kovtash on 13.11.12.
 //  Copyright (c) 2012 unact. All rights reserved.
 //
 
 #import "UDPushNotificationCenter.h"
-
-@interface UDPushNotificationCenter()
-@property (strong,nonatomic) NSArray *notificationObservers;
-@property (strong,nonatomic) NSArray *notificationProcessors;
-@end
-
+#import "UDPushNotificationCenterAbstract.h"
+#import "UDUPushNotificationProcessorBasic.h"
+#import "UDUPushNotificationProcessorWrk.h"
 
 @implementation UDPushNotificationCenter
-#pragma mark - Properties
-- (NSArray *) notificationObservers{
-    if (_notificationObservers == nil) {
-        _notificationObservers = [NSArray array];
-    }
++ (id) pushNotificationCenter{
+    UDPushNotificationCenterAbstract *pushNotificationCenter = [[UDPushNotificationCenterAbstract alloc] init];
+#if DEBUG
+    [pushNotificationCenter addPushNotificationProcessor:[[UDUPushNotificationProcessorBasic alloc] init]];
+#endif
     
-    return _notificationObservers;
-}
-
-- (NSArray *) notificationProcessors {
-    if (_notificationProcessors == nil) {
-        _notificationProcessors = [NSArray array];
-    }
+    [pushNotificationCenter addPushNotificationProcessor:[[UDUPushNotificationProcessorWrk alloc] init]];
     
-    return _notificationProcessors;
-}
-#pragma mark - Methods
-
-- (void) addObserver:(id)observer{
-    NSMutableArray *mutableNotificationObservers = [self.notificationObservers mutableCopy];
-    
-    [mutableNotificationObservers addObject:observer];
-    
-    self.notificationObservers = mutableNotificationObservers;
-    
-    [self refreshProcessorsNotificationObserverList];
-}
-
-- (void) removeObserver:(id)observer{
-    NSMutableArray *mutableNotificationObservers = [self.notificationObservers mutableCopy];
-    
-    [mutableNotificationObservers removeObject:observer];
-    
-    self.notificationObservers = mutableNotificationObservers;
-    
-    [self refreshProcessorsNotificationObserverList];
-}
-
-- (void) refreshProcessorsNotificationObserverList{
-    for (id <UDPushNotificationProcessable> notificationProcessor in self.notificationProcessors) {
-        notificationProcessor.notificationObservers = self.notificationObservers;
-    }
-}
-
-- (void) addPushNotificationProcessor:(id <UDPushNotificationProcessable>)notificationProcessor{
-    if ([notificationProcessor conformsToProtocol:@protocol(UDPushNotificationProcessable)]) {
-        NSMutableArray *mutableNotificationProcessors = [self.notificationProcessors mutableCopy];
-        
-        [mutableNotificationProcessors addObject:notificationProcessor];
-        notificationProcessor.notificationObservers = self.notificationObservers;
-        
-        self.notificationProcessors = mutableNotificationProcessors;
-    }
-}
-
-- (void) removePushNotificationProcessor:(id <UDPushNotificationProcessable>) notificationProcessor{
-    NSMutableArray *mutableNotificationProcessors = [self.notificationProcessors mutableCopy];
-    
-    [mutableNotificationProcessors removeObject:notificationProcessor];
-    
-    self.notificationProcessors = mutableNotificationProcessors;
-}
-
-- (void) processPushNotification:(NSDictionary *)userInfo{
-    for (id <UDPushNotificationProcessable> processor in self.notificationProcessors) {
-        [processor processPushNotification:userInfo];
-    }
+    return pushNotificationCenter;
 }
 @end

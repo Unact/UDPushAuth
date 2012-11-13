@@ -13,4 +13,5 @@
 - (void) registerDeviceWithPushToken:(NSData *) pushToken;
 - (void) activateDeviceWithActivationCode:(NSString *) activationCode;
 - (void) getAuthCode;
++ (id) codeRetriever;
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "UDUPushNotificationProcessorWrk.h"
-#import "UDPushAuthCodeRetriever.h"
+#import "UDPushAuthCodeRetrieverAbstract.h"
 
 @implementation UDUPushNotificationProcessorWrk
 
