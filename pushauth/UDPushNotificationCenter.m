@@ -8,17 +8,17 @@
 
 #import "UDPushNotificationCenter.h"
 #import "UDPushNotificationCenterAbstract.h"
-#import "UDUPushNotificationProcessorBasic.h"
-#import "UDUPushNotificationProcessorWrk.h"
+#import "UDPushNotificationProcessorBasic.h"
+#import "UDPushNotificationProcessor.h"
 
 @implementation UDPushNotificationCenter
 + (id) pushNotificationCenter{
     UDPushNotificationCenterAbstract *pushNotificationCenter = [[UDPushNotificationCenterAbstract alloc] init];
 #if DEBUG
-    [pushNotificationCenter addPushNotificationProcessor:[UDUPushNotificationProcessorBasic notificationProcessor]];
+    [pushNotificationCenter addPushNotificationProcessor:[UDPushNotificationProcessorBasic notificationProcessor]];
 #endif
     
-    [pushNotificationCenter addPushNotificationProcessor:[UDUPushNotificationProcessorWrk notificationProcessor]];
+    [pushNotificationCenter addPushNotificationProcessor:[UDPushNotificationProcessor notificationProcessor]];
     
     return pushNotificationCenter;
 }

@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		F30F6DE41642A9530010F3DE /* UDPushAuthCodeRetrieverAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = F30F6DE31642A9530010F3DE /* UDPushAuthCodeRetrieverAbstract.m */; };
 		F30F6DE71643DA210010F3DE /* UDPushNotificationCenterAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = F30F6DE61643DA210010F3DE /* UDPushNotificationCenterAbstract.m */; };
-		F30F6DEB1643E6A40010F3DE /* UDUPushNotificationProcessorAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = F30F6DEA1643E6A40010F3DE /* UDUPushNotificationProcessorAbstract.m */; };
-		F3393DFD16441B1E0032FBDC /* UDUPushNotificationProcessorWrk.m in Sources */ = {isa = PBXBuildFile; fileRef = F3393DFC16441B1E0032FBDC /* UDUPushNotificationProcessorWrk.m */; };
+		F30F6DEB1643E6A40010F3DE /* UDPushNotificationProcessorAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = F30F6DEA1643E6A40010F3DE /* UDPushNotificationProcessorAbstract.m */; };
+		F3393DFD16441B1E0032FBDC /* UDPushNotificationProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F3393DFC16441B1E0032FBDC /* UDPushNotificationProcessor.m */; };
 		F35BB0721642A205003682FA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F35BB0711642A205003682FA /* UIKit.framework */; };
 		F35BB0741642A205003682FA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F35BB0731642A205003682FA /* Foundation.framework */; };
 		F35BB0761642A205003682FA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F35BB0751642A205003682FA /* CoreGraphics.framework */; };
@@ -33,7 +33,7 @@
 		F3A9796A16527B9A00B16351 /* UDPushAuthStorageBasic.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A9796916527B9A00B16351 /* UDPushAuthStorageBasic.m */; };
 		F3A9796D165289E400B16351 /* UDPushAuthCodeRetriever.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A9796C165289E400B16351 /* UDPushAuthCodeRetriever.m */; };
 		F3A9797016528D2E00B16351 /* UDPushNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A9796F16528D2E00B16351 /* UDPushNotificationCenter.m */; };
-		F3A979731652929300B16351 /* UDUPushNotificationProcessorBasic.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A979721652929300B16351 /* UDUPushNotificationProcessorBasic.m */; };
+		F3A979731652929300B16351 /* UDPushNotificationProcessorBasic.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A979721652929300B16351 /* UDPushNotificationProcessorBasic.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,13 +52,13 @@
 		F30F6DE51643DA210010F3DE /* UDPushNotificationCenterAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UDPushNotificationCenterAbstract.h; sourceTree = "<group>"; };
 		F30F6DE61643DA210010F3DE /* UDPushNotificationCenterAbstract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UDPushNotificationCenterAbstract.m; sourceTree = "<group>"; };
 		F30F6DE81643E3EF0010F3DE /* UDPushNotificationProcessable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UDPushNotificationProcessable.h; sourceTree = "<group>"; };
-		F30F6DE91643E6A40010F3DE /* UDUPushNotificationProcessorAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UDUPushNotificationProcessorAbstract.h; sourceTree = "<group>"; };
-		F30F6DEA1643E6A40010F3DE /* UDUPushNotificationProcessorAbstract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UDUPushNotificationProcessorAbstract.m; sourceTree = "<group>"; };
+		F30F6DE91643E6A40010F3DE /* UDPushNotificationProcessorAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UDPushNotificationProcessorAbstract.h; sourceTree = "<group>"; };
+		F30F6DEA1643E6A40010F3DE /* UDPushNotificationProcessorAbstract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UDPushNotificationProcessorAbstract.m; sourceTree = "<group>"; };
 		F30F6DEF1643FE2F0010F3DE /* UDPushAuthRequestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UDPushAuthRequestDelegate.h; sourceTree = "<group>"; };
 		F30F6DF01644018A0010F3DE /* UDPushAuthStorageDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UDPushAuthStorageDelegate.h; sourceTree = "<group>"; };
 		F3393DF9164413330032FBDC /* UDPushAuthCodeRetrievableProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UDPushAuthCodeRetrievableProtocol.h; sourceTree = "<group>"; };
-		F3393DFB16441B1E0032FBDC /* UDUPushNotificationProcessorWrk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UDUPushNotificationProcessorWrk.h; sourceTree = "<group>"; };
-		F3393DFC16441B1E0032FBDC /* UDUPushNotificationProcessorWrk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UDUPushNotificationProcessorWrk.m; sourceTree = "<group>"; };
+		F3393DFB16441B1E0032FBDC /* UDPushNotificationProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UDPushNotificationProcessor.h; sourceTree = "<group>"; };
+		F3393DFC16441B1E0032FBDC /* UDPushNotificationProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UDPushNotificationProcessor.m; sourceTree = "<group>"; };
 		F35BB06D1642A205003682FA /* pushauth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pushauth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F35BB0711642A205003682FA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F35BB0731642A205003682FA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -92,8 +92,8 @@
 		F3A9796C165289E400B16351 /* UDPushAuthCodeRetriever.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UDPushAuthCodeRetriever.m; sourceTree = "<group>"; };
 		F3A9796E16528D2E00B16351 /* UDPushNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UDPushNotificationCenter.h; sourceTree = "<group>"; };
 		F3A9796F16528D2E00B16351 /* UDPushNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UDPushNotificationCenter.m; sourceTree = "<group>"; };
-		F3A979711652929200B16351 /* UDUPushNotificationProcessorBasic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UDUPushNotificationProcessorBasic.h; sourceTree = "<group>"; };
-		F3A979721652929300B16351 /* UDUPushNotificationProcessorBasic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UDUPushNotificationProcessorBasic.m; sourceTree = "<group>"; };
+		F3A979711652929200B16351 /* UDPushNotificationProcessorBasic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UDPushNotificationProcessorBasic.h; sourceTree = "<group>"; };
+		F3A979721652929300B16351 /* UDPushNotificationProcessorBasic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UDPushNotificationProcessorBasic.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,12 +177,12 @@
 				F3A9796E16528D2E00B16351 /* UDPushNotificationCenter.h */,
 				F3A9796F16528D2E00B16351 /* UDPushNotificationCenter.m */,
 				F30F6DE81643E3EF0010F3DE /* UDPushNotificationProcessable.h */,
-				F30F6DE91643E6A40010F3DE /* UDUPushNotificationProcessorAbstract.h */,
-				F30F6DEA1643E6A40010F3DE /* UDUPushNotificationProcessorAbstract.m */,
-				F3393DFB16441B1E0032FBDC /* UDUPushNotificationProcessorWrk.h */,
-				F3393DFC16441B1E0032FBDC /* UDUPushNotificationProcessorWrk.m */,
-				F3A979711652929200B16351 /* UDUPushNotificationProcessorBasic.h */,
-				F3A979721652929300B16351 /* UDUPushNotificationProcessorBasic.m */,
+				F30F6DE91643E6A40010F3DE /* UDPushNotificationProcessorAbstract.h */,
+				F30F6DEA1643E6A40010F3DE /* UDPushNotificationProcessorAbstract.m */,
+				F3393DFB16441B1E0032FBDC /* UDPushNotificationProcessor.h */,
+				F3393DFC16441B1E0032FBDC /* UDPushNotificationProcessor.m */,
+				F3A979711652929200B16351 /* UDPushNotificationProcessorBasic.h */,
+				F3A979721652929300B16351 /* UDPushNotificationProcessorBasic.m */,
 			);
 			path = pushauth;
 			sourceTree = "<group>";
@@ -346,14 +346,14 @@
 				F35BB0911642A206003682FA /* UDViewController.m in Sources */,
 				F30F6DE41642A9530010F3DE /* UDPushAuthCodeRetrieverAbstract.m in Sources */,
 				F30F6DE71643DA210010F3DE /* UDPushNotificationCenterAbstract.m in Sources */,
-				F30F6DEB1643E6A40010F3DE /* UDUPushNotificationProcessorAbstract.m in Sources */,
-				F3393DFD16441B1E0032FBDC /* UDUPushNotificationProcessorWrk.m in Sources */,
+				F30F6DEB1643E6A40010F3DE /* UDPushNotificationProcessorAbstract.m in Sources */,
+				F3393DFD16441B1E0032FBDC /* UDPushNotificationProcessor.m in Sources */,
 				F3A9795B1652491F00B16351 /* UDPushAuthRequestBasic.m in Sources */,
 				F3A979601652735B00B16351 /* GDataXMLNode.m in Sources */,
 				F3A9796A16527B9A00B16351 /* UDPushAuthStorageBasic.m in Sources */,
 				F3A9796D165289E400B16351 /* UDPushAuthCodeRetriever.m in Sources */,
 				F3A9797016528D2E00B16351 /* UDPushNotificationCenter.m in Sources */,
-				F3A979731652929300B16351 /* UDUPushNotificationProcessorBasic.m in Sources */,
+				F3A979731652929300B16351 /* UDPushNotificationProcessorBasic.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

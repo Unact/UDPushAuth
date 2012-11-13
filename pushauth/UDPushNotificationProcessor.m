@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 unact. All rights reserved.
 //
 
-#import "UDUPushNotificationProcessorWrk.h"
+#import "UDPushNotificationProcessor.h"
 #import "UDPushAuthCodeRetrieverAbstract.h"
 
-@implementation UDUPushNotificationProcessorWrk
+@implementation UDPushNotificationProcessor
 
 - (void) performActionForKey:(NSString *) key andObject:(id) object{
     if ([key isEqualToString:@"activation_code"]) {

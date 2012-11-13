@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "UDPushNotificationProcessable.h"
 
-@interface UDUPushNotificationProcessorAbstract : NSObject <UDPushNotificationProcessable>
+@interface UDPushNotificationProcessorAbstract : NSObject <UDPushNotificationProcessable>
 - (void) performActionForKey:(NSString *) key andObject:(id) object;
 + (id) notificationProcessor;
 @end

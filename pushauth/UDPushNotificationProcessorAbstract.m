@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 unact. All rights reserved.
 //
 
-#import "UDUPushNotificationProcessorAbstract.h"
+#import "UDPushNotificationProcessorAbstract.h"
 
 #define UN_PROTO_BLOCK_KEY @"unact"
 
-@implementation UDUPushNotificationProcessorAbstract
+@implementation UDPushNotificationProcessorAbstract
 
 @synthesize notificationObservers = _notificationObservers;
 
