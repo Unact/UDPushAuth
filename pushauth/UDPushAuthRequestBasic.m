@@ -49,15 +49,9 @@
     
 }
 - (void) activateDevice:(NSString *) deviceID WithActivationCode:(NSString *) activationCode CompleteonHandler:(void ( ^ ) (BOOL activationStatus)) completeonHandler{
-    
-}
-
-- (void) authenticateDevice:(NSString *) deviceID WithCompleteonHandler:(void ( ^ ) (NSString *authCode)) completeonHandler{
-    NSURL *registerUrl = [self urlWithResouce:@"auth" andParameters:[NSString stringWithFormat:@"client_id=&redirect_uri=upush://%@",deviceID]];
+    NSURL *registerUrl = [self urlWithResouce:@"activate" andParameters:[NSString stringWithFormat:@"device_id=%@&activation_code=%@",deviceID,activationCode]];
     
     NSURLRequest * registerRequest = [NSURLRequest requestWithURL:registerUrl];
-    
-    NSLog(@"%@",registerUrl);
     
     [NSURLConnection sendAsynchronousRequest:registerRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
         if (error != nil) {
@@ -71,14 +65,51 @@
             return;
         }
         
-        GDataXMLNode *authCodeNode = [[responseXML nodesForXPath:@"/response/auth_code" error:nil] lastObject];
+        GDataXMLNode *authCodeNode = [[responseXML nodesForXPath:@"/response/activate" error:nil] lastObject];
+        
+        if (authCodeNode == nil) {
+            NSLog(@"xml node error");
+            completeonHandler(NO);
+            return;
+        }
+        
+        if ([authCodeNode.stringValue isEqualToString:@"yes"]) {
+            completeonHandler(YES);
+        }
+        else{
+            completeonHandler(NO);
+        }
+        
+    }];
+    
+}
+
+- (void) authenticateDevice:(NSString *) deviceID WithCompleteonHandler:(void ( ^ ) (NSString *authCode, NSString *codeIdentifier)) completeonHandler{
+    NSURL *registerUrl = [self urlWithResouce:@"auth" andParameters:[NSString stringWithFormat:@"client_id=test&redirect_uri=upush://%@",deviceID]];
+    
+    NSURLRequest * registerRequest = [NSURLRequest requestWithURL:registerUrl];
+    
+    [NSURLConnection sendAsynchronousRequest:registerRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
+        if (error != nil) {
+            NSLog(@"error %@",error);
+            return;
+        }
+        
+        GDataXMLDocument * responseXML = [[GDataXMLDocument alloc] initWithData:data options:0 error:nil];
+        if (responseXML == nil) {
+            NSLog(@"xml document error");
+            return;
+        }
+        
+        GDataXMLNode *authCodeNode = [[responseXML nodesForXPath:@"/response/code" error:nil] lastObject];
+        GDataXMLNode *authCodeIDNode = [[responseXML nodesForXPath:@"/response/id" error:nil] lastObject];
         
         if (authCodeNode == nil) {
             NSLog(@"xml node error");
             return;
         }
         
-        completeonHandler(authCodeNode.stringValue);
+        completeonHandler(authCodeNode.stringValue,authCodeIDNode.stringValue);
     }];
     
 }

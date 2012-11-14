@@ -25,7 +25,7 @@
 }
 
 - (void) performActionForKey:(NSString *) key andObject:(id) object{
-    NSLog(@"%@ : %@",key,object);
+    NSLog(@"Basic Push Processor %@ : %@",key,object);
 }
 
 + (id) notificationProcessor{

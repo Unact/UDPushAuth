@@ -12,14 +12,19 @@
 #import "UDPushNotificationProcessor.h"
 
 @implementation UDPushNotificationCenter
-+ (id) pushNotificationCenter{
-    UDPushNotificationCenterAbstract *pushNotificationCenter = [[UDPushNotificationCenterAbstract alloc] init];
++ (id)sharedPushNotificationCenter
+{
+    static dispatch_once_t pred = 0;
+    __strong static id _sharedObject = nil;
+    dispatch_once(&pred, ^{
+        _sharedObject = [[self alloc] init]; // or some other init method
 #if DEBUG
-    [pushNotificationCenter addPushNotificationProcessor:[UDPushNotificationProcessorBasic notificationProcessor]];
+        [_sharedObject addPushNotificationProcessor:[UDPushNotificationProcessorBasic notificationProcessor]];
 #endif
-    
-    [pushNotificationCenter addPushNotificationProcessor:[UDPushNotificationProcessor notificationProcessor]];
-    
-    return pushNotificationCenter;
+        
+        [_sharedObject addPushNotificationProcessor:[UDPushNotificationProcessor notificationProcessor]];
+    });
+    return _sharedObject;
 }
+
 @end

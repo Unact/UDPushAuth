@@ -7,11 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "UDPushAuthRequestDelegate.h"
-#import "UDPushAuthStorageDelegate.h"
-#import "UDPushAuthCodeRetrievableProtocol.h"
+#import "UDPushAuthProcessableProtocol.h"
+#import "UDAuthCodeRetrieverableProtocol.h"
 
-@interface UDPushAuthCodeRetrieverAbstract : NSObject <UDPushAuthCodeRetrievable>
-@property (strong,nonatomic) id <UDPushAuthRequestDelegate> requestDelegate;
-@property (strong,nonatomic) id <UDPushAuthStorageDelegate> storageDelegate;
+@interface UDPushAuthCodeRetrieverAbstract : NSObject <UDPushAuthProcessable,UDAuthCodeRetrieverable>
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "UDPushNotificationProcessor.h"
-#import "UDPushAuthCodeRetrieverAbstract.h"
+#import "UDPushAuthProcessableProtocol.h"
 
 @implementation UDPushNotificationProcessor
 
@@ -22,13 +22,23 @@
 
 - (void) processActivationCode:(NSString *) activationCode{
     for (id observer in self.notificationObservers) {
-        if ([observer conformsToProtocol:@protocol(UDPushAuthCodeRetrievable) ]) {
-            [observer activateDeviceWithActivationCode:activationCode];
+        if ([observer conformsToProtocol:@protocol(UDPushAuthProcessable)]) {
+            [observer activationCodeReceived:activationCode];
         }
     }
 }
 
-- (void) processClientSecret:(NSString *) clientSecret{
-    
+- (void) processClientSecret:(NSDictionary *) clientSecret{
+    for (id observer in self.notificationObservers) {
+        
+        if ([clientSecret objectForKey:@"value"] != nil && [clientSecret objectForKey:@"id"] != nil) {
+            if ([observer conformsToProtocol:@protocol(UDPushAuthProcessable)]) {
+                [observer clientSecretReceived:[clientSecret objectForKey:@"value"] withID:[clientSecret objectForKey:@"id"]];
+            }
+        }
+        else {
+            NSLog(@"client_secret format error");
+        }
+    }
 }
 @end

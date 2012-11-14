@@ -17,10 +17,8 @@
     // Override point for customization after application launch.
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     
-    self.pushNotificatonCenter = [UDPushNotificationCenter pushNotificationCenter];
+    self.pushNotificatonCenter = [UDPushNotificationCenter sharedPushNotificationCenter];
     self.authCodeRetriever = [UDPushAuthCodeRetriever codeRetriever];
-    
-    [self.pushNotificatonCenter addObserver:self.authCodeRetriever];
     
     return YES;
 }

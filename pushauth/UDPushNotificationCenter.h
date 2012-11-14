@@ -9,5 +9,5 @@
 #import "UDPushNotificationCenterAbstract.h"
 
 @interface UDPushNotificationCenter : UDPushNotificationCenterAbstract
-
++ (id)sharedPushNotificationCenter;
 @end
