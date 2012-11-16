@@ -24,7 +24,7 @@
     codeRetriever.requestDelegate = [[UDPushAuthRequestBasic alloc] init];
     codeRetriever.storageDelegate = [[UDPushAuthStorageBasic alloc] init];
     
-    codeRetriever.requestDelegate.uPushAuthServerURL = [NSURL URLWithString:AUTH_SERVER_URL];
+    codeRetriever.requestDelegate.uPushAuthServiceURI = [NSURL URLWithString:AUTH_SERVER_URL];
     
     [[UDPushNotificationCenter sharedPushNotificationCenter] addObserver:codeRetriever];
     

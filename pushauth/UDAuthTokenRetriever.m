@@ -15,7 +15,7 @@
 @implementation UDAuthTokenRetriever
 - (void) performTokenRequestWithAuthCode:(NSString *)authCode andRedirectURI:(NSString *)redirectURI{
     
-    NSString *urlString = [NSString stringWithFormat:@"%@",self.authServerURL];
+    NSString *urlString = [NSString stringWithFormat:@"%@",self.authServiceURI];
     urlString = [urlString stringByAppendingPathComponent:@"auth"];
     urlString = [urlString stringByAppendingFormat:@"?%@",[NSString stringWithFormat:@"e_service=upushauth&client_id=test&e_code=%@&redirect_uri=%@",authCode,redirectURI]];
     
@@ -58,7 +58,7 @@
 + (id) tokenRetriever{
     
     UDAuthTokenRetriever *tokenRetriever = [[self alloc] init];
-    tokenRetriever.authServerURL = [NSURL URLWithString:AUTH_SERVICE_URI];
+    tokenRetriever.authServiceURI = [NSURL URLWithString:AUTH_SERVICE_URI];
     
     tokenRetriever.codeDelegate = [UDPushAuthCodeRetriever codeRetriever];
     tokenRetriever.codeDelegate.codeDelegate = tokenRetriever;

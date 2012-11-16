@@ -12,7 +12,7 @@
 
 @protocol UDAuthTokenProcessable <NSObject>
 @property (nonatomic,strong) id <UDAuthCodeRetrieverable> codeDelegate;
-@property (nonatomic,strong) NSURL *authServerURL;
+@property (nonatomic,strong) NSURL *authServiceURI;
 - (void) tokenReceived:(UDAuthToken *) token;
 - (void) performTokenRequestWithAuthCode:(NSString *) authCode andRedirectURI:(NSString *) redirectURI;
 @end

@@ -10,7 +10,7 @@
 #import "GDataXMLNode.h"
 
 @implementation UDPushAuthRequestBasic
-@synthesize uPushAuthServerURL = _uPushAuthServerURL;
+@synthesize uPushAuthServiceURI = _uPushAuthServiceURI;
 
 - (NSString *) deviceType{
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -116,7 +116,7 @@
 
 - (NSURL *) urlWithResouce:(NSString *)resource andParameters:(NSString *) parameters{
     
-    NSString *urlString = [NSString stringWithFormat:@"%@",self.uPushAuthServerURL];
+    NSString *urlString = [NSString stringWithFormat:@"%@",self.uPushAuthServiceURI];
     urlString = [urlString stringByAppendingPathComponent:resource];
     urlString = [urlString stringByAppendingFormat:@"?%@",parameters];
     

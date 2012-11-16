@@ -11,6 +11,6 @@
 
 @protocol UDAuthCodeRetrieverable <NSObject>
 @property (strong,nonatomic) id <UDAuthCodeRetrieverDelegate> codeDelegate;
-- (void) getAuthCode;
+- (void) requestAuthCode;
 + (id) codeRetriever;
 @end

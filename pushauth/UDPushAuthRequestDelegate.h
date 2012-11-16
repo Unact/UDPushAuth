@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @protocol UDPushAuthRequestDelegate <NSObject>
-@property (strong,nonatomic) NSURL *uPushAuthServerURL;
+@property (strong,nonatomic) NSURL *uPushAuthServiceURI;
 - (void) registerDeviceWithPushToken:(NSString *) pushToken andCompleteonHandler:(void ( ^ ) (NSString *deviceID, BOOL isActivated)) completeonHandler;
 - (void) activateDevice:(NSString *) deviceID WithActivationCode:(NSString *) activationCode CompleteonHandler:(void ( ^ ) (BOOL activationStatus)) completeonHandler;
 - (void) authenticateDevice:(NSString *) deviceID WithCompleteonHandler:(void ( ^ ) (NSString *authCode, NSString * codeIdentifier)) completeonHandler;

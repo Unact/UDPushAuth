@@ -11,13 +11,13 @@
 @implementation UDAuthTokenRetrieverAbstract
 @synthesize codeDelegate = _codeDelegate;
 @synthesize delegate = _delegate;
-@synthesize authServerURL = _authServerURL;
+@synthesize authServiceURI = _authServiceURI;
 
 - (void) requestToken{
-    [self.codeDelegate getAuthCode];
+    [self.codeDelegate requestAuthCode];
 }
 
-- (void) authCodeRecived:(NSString *)authCode forRedirectURI:(NSString *)redirectUri{
+- (void) authCodeReceived:(NSString *)authCode forRedirectURI:(NSString *)redirectUri{
     [self performTokenRequestWithAuthCode:authCode andRedirectURI:redirectUri];
 }
 

@@ -72,7 +72,7 @@
 #pragma mark *** UDAuthCodeRetrieverable ***
 #pragma mark -
 
-- (void) getAuthCode{
+- (void) requestAuthCode{
     
     __weak __typeof(&*self) weakSelf = self;
     
@@ -115,7 +115,7 @@
 - (void) sendCodeToDelegate{
     if (self.clientCode != nil && self.clientSecret != nil) {
         NSString *authCode = [NSString stringWithFormat:@"%@_%@",self.clientCode,self.clientSecret];
-        [self.codeDelegate authCodeRecived:authCode forRedirectURI:self.redirectURI];
+        [self.codeDelegate authCodeReceived:authCode forRedirectURI:self.redirectURI];
     }
 }
 
