@@ -19,6 +19,9 @@
     
     self.pushNotificatonCenter = [UDPushNotificationCenter sharedPushNotificationCenter];
     self.authCodeRetriever = [UDPushAuthCodeRetriever codeRetriever];
+    self.authTokenRetriever = [UDAuthTokenRetriever tokenRetriever];
+    
+    [self.authTokenRetriever requestToken];
     
     return YES;
 }
@@ -55,9 +58,7 @@
 #if DEBUG
     NSLog(@"Device token: %@", deviceToken);
 #endif
-    
     [self.authCodeRetriever registerDeviceWithPushToken:deviceToken];
-    [self.authCodeRetriever getAuthCode];
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
@@ -69,11 +70,7 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
-{
-#if DEBUG
-    NSLog(@"Push token user info: %@",userInfo);
-#endif
-    
+{    
     [self.pushNotificatonCenter processPushNotification:userInfo];
 }
 

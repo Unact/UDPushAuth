@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @protocol UDAuthCodeRetrieverDelegate <NSObject>
-- (void) authCodeRecived:(NSString *) authCode;
+- (void) authCodeRecived:(NSString *) authCode forRedirectURI:(NSString *) redirectUri;
 @end

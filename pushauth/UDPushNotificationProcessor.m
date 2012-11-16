@@ -8,37 +8,34 @@
 
 #import "UDPushNotificationProcessor.h"
 #import "UDPushAuthProcessableProtocol.h"
+#import "UDPushAuthActivationCode.h"
+#import "UDPushAuthClientSecret.h"
 
 @implementation UDPushNotificationProcessor
 
 - (void) performActionForKey:(NSString *) key andObject:(id) object{
     if ([key isEqualToString:@"activation_code"]) {
-        [self processActivationCode:object];
+        UDPushAuthActivationCode *activationCode = [[UDPushAuthActivationCode alloc] init];
+        activationCode.objectValue = object;
+        [self notifyObserversWithObject:activationCode];
     }
     else if ([key isEqualToString:@"client_secret"]){
-        [self processClientSecret:object];
+        
+        if ([object objectForKey:@"value"] != nil && [object objectForKey:@"id"] != nil) {
+            UDPushAuthClientSecret *clientSecret = [[UDPushAuthClientSecret alloc] init];
+            clientSecret.objectValue = [object objectForKey:@"value"];
+            clientSecret.secretID = [object objectForKey:@"id"];
+            [self notifyObserversWithObject:clientSecret];
+        }
     }
 }
 
-- (void) processActivationCode:(NSString *) activationCode{
+- (void) notifyObserversWithObject:(id) pushObject{
     for (id observer in self.notificationObservers) {
         if ([observer conformsToProtocol:@protocol(UDPushAuthProcessable)]) {
-            [observer activationCodeReceived:activationCode];
+            [observer pushMessageReceived:pushObject];
         }
     }
 }
 
-- (void) processClientSecret:(NSDictionary *) clientSecret{
-    for (id observer in self.notificationObservers) {
-        
-        if ([clientSecret objectForKey:@"value"] != nil && [clientSecret objectForKey:@"id"] != nil) {
-            if ([observer conformsToProtocol:@protocol(UDPushAuthProcessable)]) {
-                [observer clientSecretReceived:[clientSecret objectForKey:@"value"] withID:[clientSecret objectForKey:@"id"]];
-            }
-        }
-        else {
-            NSLog(@"client_secret format error");
-        }
-    }
-}
 @end

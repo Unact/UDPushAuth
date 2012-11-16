@@ -7,6 +7,8 @@
 //
 
 #import "UDPushAuthCodeRetrieverAbstract.h"
+#import "UDPushAuthActivationCode.h"
+#import "UDPushAuthClientSecret.h"
 
 @interface UDPushAuthCodeRetrieverAbstract()
 @property (strong, nonatomic) NSString *clientCode;
@@ -21,6 +23,7 @@
 #pragma mark -
 
 @synthesize deviceId = _deviceId;
+@synthesize redirectURI = _redirectURI;
 @synthesize requestDelegate = _requestDelegate;
 @synthesize storageDelegate = _storageDelegate;
 @synthesize codeDelegate = _codeDelegate;
@@ -48,6 +51,16 @@
 - (void) clientSecretReceived:(NSString *)clientSecret withID:(NSString *)secretID{
     if ([self.codeIdentifier isEqualToString:secretID]) {
         self.clientSecret = clientSecret;
+    }
+}
+
+- (void) pushMessageReceived:(id)pushObject{
+    
+    if ([pushObject isKindOfClass:[UDPushAuthActivationCode class]]) {
+        [self activationCodeReceived:(NSString *)[pushObject objectValue]];
+    }
+    else if ([pushObject isKindOfClass:[UDPushAuthClientSecret class]]){
+        [self clientSecretReceived:(NSString *)[pushObject objectValue] withID:(NSString *)[pushObject secretID]];
     }
 }
 
@@ -94,11 +107,15 @@
     }
 }
 
+- (NSString *) deviceId{
+    return self.storageDelegate.deviceID;
+}
+
+
 - (void) sendCodeToDelegate{
     if (self.clientCode != nil && self.clientSecret != nil) {
         NSString *authCode = [NSString stringWithFormat:@"%@_%@",self.clientCode,self.clientSecret];
-        NSLog(@"authCode: %@",authCode);
-        [self.codeDelegate authCodeRecived:authCode];
+        [self.codeDelegate authCodeRecived:authCode forRedirectURI:self.redirectURI];
     }
 }
 

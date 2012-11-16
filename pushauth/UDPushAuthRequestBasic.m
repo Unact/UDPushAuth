@@ -21,11 +21,11 @@
 }
 
 - (void) registerDeviceWithPushToken:(NSString *)pushToken andCompleteonHandler:(void (^)(NSString *, BOOL))completeonHandler {
-    NSURL *registerUrl = [self urlWithResouce:@"register" andParameters:[NSString stringWithFormat:@"push_token=%@&device_type=%@",pushToken,self.deviceType]];
+    NSURL *url = [self urlWithResouce:@"register" andParameters:[NSString stringWithFormat:@"push_token=%@&device_type=%@",pushToken,self.deviceType]];
     
-    NSURLRequest * registerRequest = [NSURLRequest requestWithURL:registerUrl];
+    NSURLRequest * request = [NSURLRequest requestWithURL:url];
     
-    [NSURLConnection sendAsynchronousRequest:registerRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
         if (error != nil) {
             NSLog(@"error %@",error);
             return;
@@ -49,13 +49,13 @@
     
 }
 - (void) activateDevice:(NSString *) deviceID WithActivationCode:(NSString *) activationCode CompleteonHandler:(void ( ^ ) (BOOL activationStatus)) completeonHandler{
-    NSURL *registerUrl = [self urlWithResouce:@"activate" andParameters:[NSString stringWithFormat:@"device_id=%@&activation_code=%@",deviceID,activationCode]];
+    NSURL *url = [self urlWithResouce:@"activate" andParameters:[NSString stringWithFormat:@"device_id=%@&activation_code=%@",deviceID,activationCode]];
     
-    NSURLRequest * registerRequest = [NSURLRequest requestWithURL:registerUrl];
+    NSURLRequest * request = [NSURLRequest requestWithURL:url];
     
-    [NSURLConnection sendAsynchronousRequest:registerRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
         if (error != nil) {
-            NSLog(@"error %@",error);
+            NSLog(@"activate error %@",error);
             return;
         }
         
@@ -85,13 +85,13 @@
 }
 
 - (void) authenticateDevice:(NSString *) deviceID WithCompleteonHandler:(void ( ^ ) (NSString *authCode, NSString *codeIdentifier)) completeonHandler{
-    NSURL *registerUrl = [self urlWithResouce:@"auth" andParameters:[NSString stringWithFormat:@"client_id=test&redirect_uri=upush://%@",deviceID]];
+    NSURL *url = [self urlWithResouce:@"auth" andParameters:[NSString stringWithFormat:@"client_id=test&redirect_uri=upush://%@",deviceID]];
     
-    NSURLRequest * registerRequest = [NSURLRequest requestWithURL:registerUrl];
+    NSURLRequest * request = [NSURLRequest requestWithURL:url];
     
-    [NSURLConnection sendAsynchronousRequest:registerRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
         if (error != nil) {
-            NSLog(@"error %@",error);
+            NSLog(@"auth error %@",error);
             return;
         }
         

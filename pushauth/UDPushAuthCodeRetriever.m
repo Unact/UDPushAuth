@@ -14,6 +14,10 @@
 #define AUTH_SERVER_URL @"https://hqvsrv73.unact.ru/a/UPushAuth"
 
 @implementation UDPushAuthCodeRetriever
+- (NSString *) redirectURI{
+    return [NSString stringWithFormat:@"upush://%@",self.deviceId];
+}
+
 + (id) codeRetriever{
     
     UDPushAuthCodeRetriever *codeRetriever = [[self alloc] init];
