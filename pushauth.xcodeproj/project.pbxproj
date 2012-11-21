@@ -194,43 +194,19 @@
 				F35BB08F1642A206003682FA /* UDViewController.h */,
 				F35BB0901642A206003682FA /* UDViewController.m */,
 				F35BB0781642A205003682FA /* Supporting Files */,
-				F3050F541654F656009E8206 /* UDPushObject.h */,
-				F3050F551654F656009E8206 /* UDPushObject.m */,
-				F3050F581654F6CD009E8206 /* UDPushAuthClientSecret.h */,
-				F3050F591654F6CD009E8206 /* UDPushAuthClientSecret.m */,
-				F3050F5B1654F7DA009E8206 /* UDPushAuthActivationCode.h */,
-				F3050F5C1654F7DA009E8206 /* UDPushAuthActivationCode.m */,
-				F30F6DF01644018A0010F3DE /* UDPushAuthStorageDelegate.h */,
+				F3B0E3E3165D007B0092DE27 /* UDPushAuth */,
+				F3B0E3E2165D00290092DE27 /* UDPushNotificationCenter */,
+				F3B0E3E4165D01580092DE27 /* UDAuthTokenRetriever */,
 				F3A9796816527B9A00B16351 /* UDPushAuthStorageBasic.h */,
 				F3A9796916527B9A00B16351 /* UDPushAuthStorageBasic.m */,
-				F30F6DEF1643FE2F0010F3DE /* UDPushAuthRequestDelegate.h */,
 				F3A979591652491F00B16351 /* UDPushAuthRequestBasic.h */,
 				F3A9795A1652491F00B16351 /* UDPushAuthRequestBasic.m */,
-				F3393DF9164413330032FBDC /* UDPushAuthProcessableProtocol.h */,
-				F3A979751653AC5C00B16351 /* UDAuthCodeRetrieverDelegate.h */,
-				F3A979741653ABD600B16351 /* UDAuthCodeRetrieverableProtocol.h */,
-				F30F6DE21642A9530010F3DE /* UDPushAuthCodeRetrieverAbstract.h */,
-				F30F6DE31642A9530010F3DE /* UDPushAuthCodeRetrieverAbstract.m */,
 				F3A9796B165289E400B16351 /* UDPushAuthCodeRetriever.h */,
 				F3A9796C165289E400B16351 /* UDPushAuthCodeRetriever.m */,
-				F3050F631655083D009E8206 /* UDAuthToken.h */,
-				F3050F641655083D009E8206 /* UDAuthToken.m */,
-				F3050F66165508D7009E8206 /* UDAuthTokenProcessable.h */,
-				F3050F6016550531009E8206 /* UDAuthTokenRetrievable.h */,
-				F3050F6116550713009E8206 /* UDTokenRetrieverDelegate.h */,
-				F3050F6716550D2B009E8206 /* UDAuthTokenRetrieverAbstract.h */,
-				F3050F6816550D2C009E8206 /* UDAuthTokenRetrieverAbstract.m */,
 				F3050F6A165510F8009E8206 /* UDAuthTokenRetriever.h */,
 				F3050F6B165510F9009E8206 /* UDAuthTokenRetriever.m */,
 				F3B0E3CE165CD31F0092DE27 /* UDOAuthBasic.h */,
 				F3B0E3CF165CD31F0092DE27 /* UDOAuthBasic.m */,
-				F30F6DE51643DA210010F3DE /* UDPushNotificationCenterAbstract.h */,
-				F30F6DE61643DA210010F3DE /* UDPushNotificationCenterAbstract.m */,
-				F3A9796E16528D2E00B16351 /* UDPushNotificationCenter.h */,
-				F3A9796F16528D2E00B16351 /* UDPushNotificationCenter.m */,
-				F30F6DE81643E3EF0010F3DE /* UDPushNotificationProcessable.h */,
-				F30F6DE91643E6A40010F3DE /* UDPushNotificationProcessorAbstract.h */,
-				F30F6DEA1643E6A40010F3DE /* UDPushNotificationProcessorAbstract.m */,
 				F3393DFB16441B1E0032FBDC /* UDPushNotificationProcessor.h */,
 				F3393DFC16441B1E0032FBDC /* UDPushNotificationProcessor.m */,
 				F3A979711652929200B16351 /* UDPushNotificationProcessorBasic.h */,
@@ -281,6 +257,54 @@
 				F3A9795F1652735B00B16351 /* GDataXMLNode.m */,
 			);
 			path = lib;
+			sourceTree = "<group>";
+		};
+		F3B0E3E2165D00290092DE27 /* UDPushNotificationCenter */ = {
+			isa = PBXGroup;
+			children = (
+				F3050F541654F656009E8206 /* UDPushObject.h */,
+				F3050F551654F656009E8206 /* UDPushObject.m */,
+				F30F6DE81643E3EF0010F3DE /* UDPushNotificationProcessable.h */,
+				F30F6DE51643DA210010F3DE /* UDPushNotificationCenterAbstract.h */,
+				F30F6DE61643DA210010F3DE /* UDPushNotificationCenterAbstract.m */,
+				F3A9796E16528D2E00B16351 /* UDPushNotificationCenter.h */,
+				F3A9796F16528D2E00B16351 /* UDPushNotificationCenter.m */,
+				F30F6DE91643E6A40010F3DE /* UDPushNotificationProcessorAbstract.h */,
+				F30F6DEA1643E6A40010F3DE /* UDPushNotificationProcessorAbstract.m */,
+			);
+			name = UDPushNotificationCenter;
+			sourceTree = "<group>";
+		};
+		F3B0E3E3165D007B0092DE27 /* UDPushAuth */ = {
+			isa = PBXGroup;
+			children = (
+				F3050F581654F6CD009E8206 /* UDPushAuthClientSecret.h */,
+				F3050F591654F6CD009E8206 /* UDPushAuthClientSecret.m */,
+				F3050F5B1654F7DA009E8206 /* UDPushAuthActivationCode.h */,
+				F3050F5C1654F7DA009E8206 /* UDPushAuthActivationCode.m */,
+				F30F6DF01644018A0010F3DE /* UDPushAuthStorageDelegate.h */,
+				F30F6DEF1643FE2F0010F3DE /* UDPushAuthRequestDelegate.h */,
+				F3393DF9164413330032FBDC /* UDPushAuthProcessableProtocol.h */,
+				F3A979751653AC5C00B16351 /* UDAuthCodeRetrieverDelegate.h */,
+				F3A979741653ABD600B16351 /* UDAuthCodeRetrieverableProtocol.h */,
+				F30F6DE21642A9530010F3DE /* UDPushAuthCodeRetrieverAbstract.h */,
+				F30F6DE31642A9530010F3DE /* UDPushAuthCodeRetrieverAbstract.m */,
+			);
+			name = UDPushAuth;
+			sourceTree = "<group>";
+		};
+		F3B0E3E4165D01580092DE27 /* UDAuthTokenRetriever */ = {
+			isa = PBXGroup;
+			children = (
+				F3050F631655083D009E8206 /* UDAuthToken.h */,
+				F3050F641655083D009E8206 /* UDAuthToken.m */,
+				F3050F66165508D7009E8206 /* UDAuthTokenProcessable.h */,
+				F3050F6016550531009E8206 /* UDAuthTokenRetrievable.h */,
+				F3050F6116550713009E8206 /* UDTokenRetrieverDelegate.h */,
+				F3050F6716550D2B009E8206 /* UDAuthTokenRetrieverAbstract.h */,
+				F3050F6816550D2C009E8206 /* UDAuthTokenRetrieverAbstract.m */,
+			);
+			name = UDAuthTokenRetriever;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
