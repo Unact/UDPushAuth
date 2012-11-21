@@ -40,6 +40,9 @@
 		F3A9796D165289E400B16351 /* UDPushAuthCodeRetriever.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A9796C165289E400B16351 /* UDPushAuthCodeRetriever.m */; };
 		F3A9797016528D2E00B16351 /* UDPushNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A9796F16528D2E00B16351 /* UDPushNotificationCenter.m */; };
 		F3A979731652929300B16351 /* UDPushNotificationProcessorBasic.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A979721652929300B16351 /* UDPushNotificationProcessorBasic.m */; };
+		F3B0E3D0165CD31F0092DE27 /* UDOAuthBasic.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B0E3CF165CD31F0092DE27 /* UDOAuthBasic.m */; };
+		F3B0E3D2165CE9290092DE27 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3B0E3D1165CE9290092DE27 /* SystemConfiguration.framework */; };
+		F3B0E3E1165CEED30092DE27 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B0E3E0165CEED30092DE27 /* Reachability.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +120,11 @@
 		F3A979721652929300B16351 /* UDPushNotificationProcessorBasic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UDPushNotificationProcessorBasic.m; sourceTree = "<group>"; };
 		F3A979741653ABD600B16351 /* UDAuthCodeRetrieverableProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UDAuthCodeRetrieverableProtocol.h; sourceTree = "<group>"; };
 		F3A979751653AC5C00B16351 /* UDAuthCodeRetrieverDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UDAuthCodeRetrieverDelegate.h; sourceTree = "<group>"; };
+		F3B0E3CE165CD31F0092DE27 /* UDOAuthBasic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UDOAuthBasic.h; sourceTree = "<group>"; };
+		F3B0E3CF165CD31F0092DE27 /* UDOAuthBasic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UDOAuthBasic.m; sourceTree = "<group>"; };
+		F3B0E3D1165CE9290092DE27 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		F3B0E3DF165CEED30092DE27 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		F3B0E3E0165CEED30092DE27 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +132,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3B0E3D2165CE9290092DE27 /* SystemConfiguration.framework in Frameworks */,
 				F35BB0721642A205003682FA /* UIKit.framework in Frameworks */,
 				F35BB0741642A205003682FA /* Foundation.framework in Frameworks */,
 				F35BB0761642A205003682FA /* CoreGraphics.framework in Frameworks */,
@@ -165,6 +174,7 @@
 		F35BB0701642A205003682FA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F3B0E3D1165CE9290092DE27 /* SystemConfiguration.framework */,
 				F35BB0711642A205003682FA /* UIKit.framework */,
 				F35BB0731642A205003682FA /* Foundation.framework */,
 				F35BB0751642A205003682FA /* CoreGraphics.framework */,
@@ -212,6 +222,8 @@
 				F3050F6816550D2C009E8206 /* UDAuthTokenRetrieverAbstract.m */,
 				F3050F6A165510F8009E8206 /* UDAuthTokenRetriever.h */,
 				F3050F6B165510F9009E8206 /* UDAuthTokenRetriever.m */,
+				F3B0E3CE165CD31F0092DE27 /* UDOAuthBasic.h */,
+				F3B0E3CF165CD31F0092DE27 /* UDOAuthBasic.m */,
 				F30F6DE51643DA210010F3DE /* UDPushNotificationCenterAbstract.h */,
 				F30F6DE61643DA210010F3DE /* UDPushNotificationCenterAbstract.m */,
 				F3A9796E16528D2E00B16351 /* UDPushNotificationCenter.h */,
@@ -263,6 +275,8 @@
 		F3A9795D1652735B00B16351 /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				F3B0E3DF165CEED30092DE27 /* Reachability.h */,
+				F3B0E3E0165CEED30092DE27 /* Reachability.m */,
 				F3A9795E1652735B00B16351 /* GDataXMLNode.h */,
 				F3A9795F1652735B00B16351 /* GDataXMLNode.m */,
 			);
@@ -400,6 +414,8 @@
 				F3050F651655083E009E8206 /* UDAuthToken.m in Sources */,
 				F3050F6916550D2C009E8206 /* UDAuthTokenRetrieverAbstract.m in Sources */,
 				F3050F6C165510FA009E8206 /* UDAuthTokenRetriever.m in Sources */,
+				F3B0E3D0165CD31F0092DE27 /* UDOAuthBasic.m in Sources */,
+				F3B0E3E1165CEED30092DE27 /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

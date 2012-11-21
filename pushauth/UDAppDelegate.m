@@ -19,9 +19,14 @@
     
     self.pushNotificatonCenter = [UDPushNotificationCenter sharedPushNotificationCenter];
     self.authCodeRetriever = [UDPushAuthCodeRetriever codeRetriever];
-    self.authTokenRetriever = [UDAuthTokenRetriever tokenRetriever];
     
-    [self.authTokenRetriever requestToken];
+    [UDOAuthBasic sharedOAuth];
+    
+    // allocate a reachability object
+    self.reachability = [Reachability reachabilityWithHostname:@"system.unact.ru"];
+    self.reachability.reachableOnWWAN = YES;
+    
+    [self.reachability startNotifier];
     
     return YES;
 }
@@ -77,12 +82,12 @@
 @end
 
 #if DEBUG
-@implementation NSURLRequest(AllowAllCerts)
+/*@implementation NSURLRequest(AllowAllCerts)
 
 + (BOOL) allowsAnyHTTPSCertificateForHost:(NSString *) host {
     return YES;
 }
-@end
+@end*/
 #endif
 
 
