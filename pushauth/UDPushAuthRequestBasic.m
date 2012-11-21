@@ -119,7 +119,6 @@
     NSString *urlString = [NSString stringWithFormat:@"%@",self.uPushAuthServiceURI];
     urlString = [urlString stringByAppendingFormat:@"?_host=hqvsrv73&_svc=a/UPushAuth/%@&%@",resource,parameters];
     
-    NSLog(@"%@",urlString);
     return [NSURL URLWithString:urlString];
 }
 

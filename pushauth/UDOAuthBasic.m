@@ -83,8 +83,6 @@
                                                  selector:@selector(reachabilityChanged:)
                                                      name:kReachabilityChangedNotification
                                                    object:nil];
-        
-        [self checkToken];
     }
     
     return self;    
