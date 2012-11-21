@@ -10,5 +10,9 @@
 
 @interface UDAuthToken : NSObject
 @property (strong,nonatomic) NSString *value;
-@property (assign,nonatomic) int lifetime; //in seconds
+@property (assign,nonatomic) NSTimeInterval lifetime; //in seconds
+@property (readonly,nonatomic) NSDate *creationTime;
+@property (readonly,nonatomic) NSTimeInterval ttl;
+@property (readonly,nonatomic) NSDate *expirationTime;
+@property (readonly,nonatomic) BOOL isValid;
 @end
