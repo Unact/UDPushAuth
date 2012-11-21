@@ -10,14 +10,14 @@
 #import "UDPushAuthCodeRetriever.h"
 #import "GDataXMLNode.h"
 
-#define AUTH_SERVICE_URI @"https://hqvsrv73.unact.ru/a/uoauth"
+#define AUTH_SERVICE_URI @"https://system.unact.ru/asa"
+#define DEFAULT_TOKEN_LIFETIME 36000
 
 @implementation UDAuthTokenRetriever
 - (void) performTokenRequestWithAuthCode:(NSString *)authCode andRedirectURI:(NSString *)redirectURI{
     
     NSString *urlString = [NSString stringWithFormat:@"%@",self.authServiceURI];
-    urlString = [urlString stringByAppendingPathComponent:@"auth"];
-    urlString = [urlString stringByAppendingFormat:@"?%@",[NSString stringWithFormat:@"e_service=upushauth&client_id=test&e_code=%@&redirect_uri=%@",authCode,redirectURI]];
+    urlString = [urlString stringByAppendingFormat:@"?_host=hqvsrv73&_svc=a/uoauth/auth&%@",[NSString stringWithFormat:@"e_service=upushauth&client_id=test&e_code=%@&redirect_uri=%@",authCode,redirectURI]];
     
     NSURL *url = [NSURL URLWithString:urlString];
     
@@ -39,7 +39,11 @@
         
         NSDictionary *xmlns = [NSDictionary dictionaryWithObject:@"http://unact.net/xml/oauth" forKey:@"oauth"];
         
-        GDataXMLNode *accessTokenValue = [[responseXML nodesForXPath:@"oauth:response/oauth:access-token" namespaces:xmlns error:nil] objectAtIndex:0];
+        GDataXMLNode *accessTokenValue = nil;
+        
+        if ([responseXML nodesForXPath:@"oauth:response/oauth:access-token" namespaces:xmlns error:nil].count > 0) {
+             accessTokenValue = [[responseXML nodesForXPath:@"oauth:response/oauth:access-token" namespaces:xmlns error:nil] objectAtIndex:0];
+        }
         
         if (accessTokenValue == nil) {
             NSLog(@"xml node error");
@@ -49,7 +53,7 @@
         
         UDAuthToken * accessToken = [[UDAuthToken alloc] init];
         accessToken.value = accessTokenValue.stringValue;
-        accessToken.lifetime = 14400; //4 hours
+        accessToken.lifetime = DEFAULT_TOKEN_LIFETIME;
         
         [weakSelf tokenReceived:accessToken];
     }];

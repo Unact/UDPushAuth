@@ -117,8 +117,7 @@
 - (NSURL *) urlWithResouce:(NSString *)resource andParameters:(NSString *) parameters{
     
     NSString *urlString = [NSString stringWithFormat:@"%@",self.uPushAuthServiceURI];
-    urlString = [urlString stringByAppendingPathComponent:resource];
-    urlString = [urlString stringByAppendingFormat:@"?%@",parameters];
+    urlString = [urlString stringByAppendingFormat:@"?_host=hqvsrv73&_svc=a/UPushAuth/%@&%@",resource,parameters];
     
     return [NSURL URLWithString:urlString];
 }

@@ -22,7 +22,7 @@
 }
 
 - (void) tokenReceived:(UDAuthToken *)token{
-    NSLog(@"Token: %@ %d",token.value,token.lifetime);
+    [self.delegate tokenReceived:token];
 }
 
 - (void) performTokenRequestWithAuthCode:(NSString *)authCode andRedirectURI:(NSString *)redirectURI{

@@ -11,7 +11,8 @@
 #import "UDPushAuthStorageBasic.h"
 #import "UDPushNotificationCenter.h"
 
-#define AUTH_SERVER_URL @"https://hqvsrv73.unact.ru/a/UPushAuth"
+#define AUTH_SERVER_URL @"https://system.unact.ru/asa"
+
 
 @implementation UDPushAuthCodeRetriever
 - (NSString *) redirectURI{
