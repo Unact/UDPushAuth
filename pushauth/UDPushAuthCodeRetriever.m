@@ -33,6 +33,6 @@
 }
 
 - (void)dealloc{
-    [[UDPushNotificationCenter sharedPushNotificationCenter] addObserver:self];
+    [[UDPushNotificationCenter sharedPushNotificationCenter] removeObserver:self];
 }
 @end

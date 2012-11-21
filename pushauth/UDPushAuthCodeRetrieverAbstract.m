@@ -30,17 +30,20 @@
 @synthesize clientCode = _clientCode;
 @synthesize clientSecret = _clientSecret;
 
-- (void) registerDeviceWithPushToken:(NSData *)pushToken{
-    
-    __weak __typeof(&*self) weakSelf = self;
-    
-    [self.requestDelegate registerDeviceWithPushToken:[self cleanPushToken:pushToken] andCompleteonHandler:^(NSString *deviceID, BOOL isActivated){
+
+- (void) registerDeviceWithPushToken:(NSData *)pushToken{    
+    if (pushToken != nil) {
+        self.storageDelegate.pushToken = pushToken;
+        
+        __weak __typeof(&*self) weakSelf = self;
+        [self.requestDelegate registerDeviceWithPushToken:[self cleanPushToken:pushToken] andCompleteonHandler:^(NSString *deviceID, BOOL isActivated){
             weakSelf.storageDelegate.deviceID = deviceID;
-    }];
+        }];
+    }
 }
 
 - (void) activationCodeReceived:(NSString *) activationCode{
-        
+    
     if (self.storageDelegate.deviceID != nil && activationCode != nil) {
         [self.requestDelegate activateDevice:self.storageDelegate.deviceID WithActivationCode:activationCode CompleteonHandler:^(BOOL activationStatus){
         
@@ -81,6 +84,9 @@
             weakSelf.clientCode = authCode;
             weakSelf.codeIdentifier = codeIdentifier;
         }];
+    }
+    else {
+        [self registerDeviceWithPushToken:self.storageDelegate.pushToken];
     }
 }
 

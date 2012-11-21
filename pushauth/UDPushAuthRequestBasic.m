@@ -40,7 +40,7 @@
         GDataXMLNode *deviceIDNode = [[responseXML nodesForXPath:@"/response/device_id" error:nil] lastObject];
         
         if (deviceIDNode == nil) {
-            NSLog(@"xml node error");
+            NSLog(@"deviceID Node error");
             return;
         }
         
@@ -68,7 +68,7 @@
         GDataXMLNode *authCodeNode = [[responseXML nodesForXPath:@"/response/activate" error:nil] lastObject];
         
         if (authCodeNode == nil) {
-            NSLog(@"xml node error");
+            NSLog(@"activateCode Node error");
             completeonHandler(NO);
             return;
         }
@@ -105,7 +105,7 @@
         GDataXMLNode *authCodeIDNode = [[responseXML nodesForXPath:@"/response/id" error:nil] lastObject];
         
         if (authCodeNode == nil) {
-            NSLog(@"xml node error");
+            NSLog(@"authCode Node error");
             return;
         }
         
@@ -119,6 +119,7 @@
     NSString *urlString = [NSString stringWithFormat:@"%@",self.uPushAuthServiceURI];
     urlString = [urlString stringByAppendingFormat:@"?_host=hqvsrv73&_svc=a/UPushAuth/%@&%@",resource,parameters];
     
+    NSLog(@"%@",urlString);
     return [NSURL URLWithString:urlString];
 }
 

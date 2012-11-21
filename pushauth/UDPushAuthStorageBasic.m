@@ -16,26 +16,27 @@
 
 @implementation UDPushAuthStorageBasic
 @synthesize deviceID = _deviceID;
-@synthesize accessToken = _accessToken;
+@synthesize pushToken = _pushToken;
 
 - (NSString *) deviceID{
     return [[NSUserDefaults standardUserDefaults] stringForKey:DEVICE_ID_KEY];
 }
 
 - (void) setDeviceID:(NSString *)deviceID{
-    if (deviceID != nil && ![deviceID isEqualToString:self.deviceID]) {
+    if (deviceID != nil) {
         [[NSUserDefaults standardUserDefaults] setObject:deviceID forKey:DEVICE_ID_KEY];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:PUSH_TOKEN_KEY];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
 
-- (NSString *) accessToken{
-    return [[NSUserDefaults standardUserDefaults] stringForKey:PUSH_TOKEN_KEY];
+- (NSData *) pushToken{
+    return [[NSUserDefaults standardUserDefaults] dataForKey:PUSH_TOKEN_KEY];
 }
 
-- (void) setAccessToken:(NSString *)accessToken{
-    if (accessToken != nil && ![accessToken isEqualToString:self.accessToken]) {
-        [[NSUserDefaults standardUserDefaults] setObject:accessToken forKey:PUSH_TOKEN_KEY];
+- (void) setPushToken:(NSData *)pushToken{    
+    if (pushToken != nil && ![pushToken isEqualToData:self.pushToken]) {
+        [[NSUserDefaults standardUserDefaults] setObject:pushToken forKey:PUSH_TOKEN_KEY];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }

@@ -10,6 +10,6 @@
 #import "UDTokenRetrieverDelegate.h"
 
 @protocol UDAuthTokenRetrievable <NSObject>
-@property (weak,nonatomic) id delegate;
+@property (weak,nonatomic) id <UDTokenRetrieverDelegate> delegate;
 - (void) requestToken;
 @end

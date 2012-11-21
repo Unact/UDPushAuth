@@ -10,5 +10,5 @@
 
 @protocol UDPushAuthStorageDelegate <NSObject>
 @property (readwrite) NSString *deviceID;
-@property (readwrite) NSString *accessToken;
+@property (readwrite) NSData *pushToken;
 @end
