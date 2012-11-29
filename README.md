@@ -13,6 +13,9 @@ UDPushAuth
 * Reachability
 * GDataXMLNode
 
+Включены в проект, размещены в каталоге libs.
+
+
 Настройка
 ---
 ```
