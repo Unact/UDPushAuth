@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/Unact/UDPushAuth.git"}
 
   s.platform     = :ios, '5.0'
-  s.source_files = 'Classes', 'Classes/**/*.{h,m}'
+  s.source_files = 'pushauth/Classes/*.{h,m}', 'pushauth/Classes/**/*.{h,m}'
   
   s.dependency 'Reachability', '~> 3.1.0'
   s.dependency 'GData', '~> 1.9.1'
