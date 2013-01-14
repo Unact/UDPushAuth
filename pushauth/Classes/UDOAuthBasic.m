@@ -52,7 +52,7 @@
     NSMutableURLRequest *resultingRequest = nil;
     
     if (self.authToken != nil && self.authToken.isValid) {
-        
+        resultingRequest = [request mutableCopy];
         [resultingRequest addValue:[NSString stringWithFormat:@"Bearer %@",self.authToken.value] forHTTPHeaderField:@"Authorization"];
     }
     
