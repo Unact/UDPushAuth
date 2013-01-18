@@ -9,6 +9,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/Unact/UDPushAuth.git"}
 
   s.platform     = :ios, '5.0'
+  s.requires_arc = true
   s.source_files = 'pushauth/Classes/*.{h,m}', 'pushauth/Classes/**/*.{h,m}'
   
   s.dependency 'Reachability', '~> 3.1.0'
