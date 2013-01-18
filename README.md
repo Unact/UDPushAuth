@@ -7,14 +7,9 @@ UDPushAuth
 `[[UDOAuthBasic sharedOAuth] authenticateRequest:(NSURLRequest *) request]` -
 Возвращает аутентифицированный NSURLRequest или nil, если аутентификация невозможна.
 
-Зависимости
+Установка
 ---
-
-* Reachability
-* GDataXMLNode
-
-Включены в проект, размещены в каталоге libs.
-
+```pod 'UDPushAuth', :git => 'https://github.com/Unact/UDPushAuth.git', :branch => 'master'```
 
 Настройка
 ---
