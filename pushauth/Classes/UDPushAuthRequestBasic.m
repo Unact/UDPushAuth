@@ -11,7 +11,16 @@
 
 @implementation UDPushAuthRequestBasic
 @synthesize uPushAuthServiceURI = _uPushAuthServiceURI;
+@synthesize appID = _appID;
 
+
+- (NSString *)constantGetParameters{
+    if (_constantGetParameters ==nil) {
+        _constantGetParameters = @"";
+    }
+    
+    return _constantGetParameters;
+}
 - (NSString *) deviceType{
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         return @"ipad";
@@ -115,10 +124,9 @@
 }
 
 - (NSURL *) urlWithResouce:(NSString *)resource andParameters:(NSString *) parameters{
-    
     NSString *urlString = [NSString stringWithFormat:@"%@",self.uPushAuthServiceURI];
-    urlString = [urlString stringByAppendingFormat:@"?_host=hqvsrv73&_svc=a/UPushAuth/%@&%@",resource,parameters];
-    
+    urlString = [urlString stringByAppendingFormat:@"?%@%@&%@",self.constantGetParameters,resource,parameters];
+    NSLog(@"URL %@",urlString);
     return [NSURL URLWithString:urlString];
 }
 

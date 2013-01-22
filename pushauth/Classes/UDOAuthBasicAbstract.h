@@ -8,11 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import "UDTokenRetrieverDelegate.h"
+#import "UDAuthTokenRetrievable.h"
 
-@interface UDOAuthBasic : NSObject <UDTokenRetrieverDelegate>
+@interface UDOAuthBasicAbstract : NSObject <UDTokenRetrieverDelegate>
+@property (strong,nonatomic) id <UDAuthTokenRetrievable> tokenRetriever;
+@property (readonly,nonatomic) NSString *reachabilityServer;
 - (void) forceTokenRequest;
 - (NSURLRequest *) authenticateRequest:(NSURLRequest *) request;
 - (void) checkToken;
 - (void) reachabilityChanged:(NSNotification *)notification;
 + (id)sharedOAuth;
++ (id) tokenRetrieverMaker;
 @end

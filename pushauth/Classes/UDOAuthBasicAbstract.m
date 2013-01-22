@@ -6,23 +6,29 @@
 //  Copyright (c) 2012 unact. All rights reserved.
 //
 
-#import "UDOAuthBasic.h"
+#import "UDOAuthBasicAbstract.h"
 #import "UDAuthToken.h"
 #import "UDAuthTokenRetrievable.h"
-#import "UDAuthTokenRetriever.h"
 #import "Reachability.h"
 
 #define FORCED_TOKEN_CHECK_INTERVAL 20
 #define TOKEN_CHECK_INTERVAL 300 //sec
 #define TOKEN_ACTIVE_LIFETIME 28800 //sec
-#define TOKEN_SERVER_URL @"system.unact.ru"
 
-@interface UDOAuthBasic()
-@property (strong,nonatomic) id <UDAuthTokenRetrievable> tokenRetriever;
+@interface UDOAuthBasicAbstract()
 @property (strong,nonatomic) UDAuthToken * authToken;
 @end
 
-@implementation UDOAuthBasic
+@implementation UDOAuthBasicAbstract
+
+- (void) setTokenRetriever:(id<UDAuthTokenRetrievable>)tokenRetriever{
+    if (_tokenRetriever != tokenRetriever) {
+        _tokenRetriever = tokenRetriever;
+        if (self.tokenRetriever != nil) {
+            [self.tokenRetriever setDelegate:self];
+        }
+    }
+}
 
 - (void) tokenReceived:(UDAuthToken *) token{    
     if (token != nil && token != self.authToken) {
@@ -43,7 +49,7 @@
             [NSTimer scheduledTimerWithTimeInterval:FORCED_TOKEN_CHECK_INTERVAL target:self selector:@selector(checkToken) userInfo:nil repeats:NO];
     }
     
-    if ((self.authToken == nil || self.authToken.ttl < TOKEN_ACTIVE_LIFETIME) && [Reachability reachabilityWithHostname:TOKEN_SERVER_URL].isReachable) {
+    if ((self.authToken == nil || self.authToken.ttl < TOKEN_ACTIVE_LIFETIME) && [Reachability reachabilityWithHostname:self.reachabilityServer].isReachable) {
         [self.tokenRetriever requestToken];
     }
 }
@@ -73,8 +79,7 @@
     
     if (self != nil)
     {
-        self.tokenRetriever = [UDAuthTokenRetriever tokenRetriever];
-        self.tokenRetriever.delegate = self;
+        self.tokenRetriever = [[self class] tokenRetrieverMaker];
         
         [NSTimer scheduledTimerWithTimeInterval:TOKEN_CHECK_INTERVAL target:self selector:@selector(checkToken) userInfo:nil repeats:YES];
         
@@ -102,4 +107,13 @@
     });
     return _sharedObject;
 }
+
+- (NSString *) reachabilityServer{
+    return nil;
+}
+
++ (id) tokenRetrieverMaker{
+    return nil;
+}
+
 @end

@@ -10,7 +10,6 @@
 #import "UDPushAuthCodeRetriever.h"
 #import "GDataXMLNode.h"
 
-#define AUTH_SERVICE_URI @"https://system.unact.ru/asa"
 #define DEFAULT_TOKEN_LIFETIME 36000
 
 @implementation UDAuthTokenRetriever
@@ -60,13 +59,8 @@
 }
 
 + (id) tokenRetriever{
-    
     UDAuthTokenRetriever *tokenRetriever = [[self alloc] init];
-    tokenRetriever.authServiceURI = [NSURL URLWithString:AUTH_SERVICE_URI];
-    
     tokenRetriever.codeDelegate = [UDPushAuthCodeRetriever codeRetriever];
-    tokenRetriever.codeDelegate.codeDelegate = tokenRetriever;
-    
     return tokenRetriever;
 }
 @end

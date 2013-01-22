@@ -13,6 +13,16 @@
 @synthesize delegate = _delegate;
 @synthesize authServiceURI = _authServiceURI;
 
+- (void) setCodeDelegate:(id<UDAuthCodeRetrieverable>)codeDelegate{
+    if (_codeDelegate != codeDelegate) {
+        _codeDelegate = codeDelegate;
+        
+        if (self.codeDelegate != nil) {
+            self.codeDelegate.codeDelegate = self;
+        }
+    }
+}
+
 - (void) requestToken{
     [self.codeDelegate requestAuthCode];
 }

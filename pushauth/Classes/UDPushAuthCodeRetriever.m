@@ -11,9 +11,6 @@
 #import "UDPushAuthStorageBasic.h"
 #import "UDPushNotificationCenter.h"
 
-#define AUTH_SERVER_URL @"https://system.unact.ru/asa"
-
-
 @implementation UDPushAuthCodeRetriever
 - (NSString *) redirectURI{
     return [NSString stringWithFormat:@"upush://%@",self.deviceId];
@@ -24,8 +21,6 @@
     UDPushAuthCodeRetriever *codeRetriever = [[self alloc] init];
     codeRetriever.requestDelegate = [[UDPushAuthRequestBasic alloc] init];
     codeRetriever.storageDelegate = [[UDPushAuthStorageBasic alloc] init];
-    
-    codeRetriever.requestDelegate.uPushAuthServiceURI = [NSURL URLWithString:AUTH_SERVER_URL];
     
     [[UDPushNotificationCenter sharedPushNotificationCenter] addObserver:codeRetriever];
     

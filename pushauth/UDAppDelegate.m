@@ -18,14 +18,9 @@
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     
     self.pushNotificatonCenter = [UDPushNotificationCenter sharedPushNotificationCenter];
-    self.authCodeRetriever = [UDPushAuthCodeRetriever codeRetriever];
-    
-    [UDOAuthBasic sharedOAuth];
-    
-    // allocate a reachability object
-    self.reachability = [Reachability reachabilityWithHostname:@"system.unact.ru"];
+    self.authCodeRetriever = (UDPushAuthCodeRetriever *)[(UDAuthTokenRetriever *)[[UDOAuthBasic sharedOAuth] tokenRetriever] codeDelegate];
+    self.reachability = [Reachability reachabilityWithHostname:[[UDOAuthBasic sharedOAuth] reachabilityServer]];
     self.reachability.reachableOnWWAN = YES;
-    
     [self.reachability startNotifier];
     
     return YES;
