@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "UDPushAuth"
-  s.version      = "0.1.1"
+  s.version      = "0.2.0"
   s.summary      = "OAuth-like authorization with apple pushnotifications as a transport for auth_code."
   s.homepage     = "https://github.com/Unact/UDPushAuth"
 

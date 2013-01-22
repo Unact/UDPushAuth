@@ -1,18 +1,48 @@
 UDPushAuth
 ==========
 
-Использование
----
-
-`[[UDOAuthBasic sharedOAuth] authenticateRequest:(NSURLRequest *) request]` -
-Возвращает аутентифицированный NSURLRequest или nil, если аутентификация невозможна.
-
 Установка
 ---
-```pod 'UDPushAuth', :git => 'https://github.com/Unact/UDPushAuth.git', :branch => 'master'```
+`pod 'UDPushAuth', :git => 'https://github.com/Unact/UDPushAuth.git', :branch => 'master'`
 
 Настройка
 ---
+Необходимо создать класс, унаследованный от UDOAuthBasicAbstract, например UDOAuthBasic.
+И реализовать методы 
+
+- `(NSString *) reachabilityServer` - возвращает адрес сервера для проверки доступности
+- `+ (id) tokenRetrieverMaker` - возвращает сконфигурированный класс, отвечающий протоколу UDAuthTokenRetrievable
+
+```
+#import "UDOAuthBasic.h"
+#define TOKEN_SERVER_URL @"system.unact.ru"
+#define AUTH_SERVICE_URI @"https://system.unact.ru/asa"
+
+@implementation UDOAuthBasic
+
+- (NSString *) reachabilityServer{
+    return TOKEN_SERVER_URL;
+}
+
++ (id) tokenRetrieverMaker{
+    UDAuthTokenRetriever *tokenRetriever = [[UDAuthTokenRetriever alloc] init];
+    tokenRetriever.authServiceURI = [NSURL URLWithString:AUTH_SERVICE_URI];
+    
+    UDPushAuthCodeRetriever *codeRetriever = [UDPushAuthCodeRetriever codeRetriever];
+    codeRetriever.requestDelegate.uPushAuthServiceURI = [NSURL URLWithString:AUTH_SERVICE_URI];
+#if DEBUG
+    [(UDPushAuthRequestBasic *)[codeRetriever requestDelegate] setConstantGetParameters:@"_host=hqvsrv73&app_id=pushauth-dev&_svc=a/UPushAuth/"];
+#else
+    [(UDPushAuthRequestBasic *)[codeRetriever requestDelegate] setConstantGetParameters:@"_host=hqvsrv73&app_id=pushauth&_svc=a/UPushAuth/"];
+#endif
+    tokenRetriever.codeDelegate = codeRetriever;
+    
+    return tokenRetriever;
+}
+```
+
+Затем добавить в AppDelegate
+
 ```
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -20,14 +50,9 @@ UDPushAuth
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     
     self.pushNotificatonCenter = [UDPushNotificationCenter sharedPushNotificationCenter];
-    self.authCodeRetriever = [UDPushAuthCodeRetriever codeRetriever];
-    
-    [UDOAuthBasic sharedOAuth];
-    
-    // allocate a reachability object
-    self.reachability = [Reachability reachabilityWithHostname:@"{hostname_to_check}"];
+    self.authCodeRetriever = (UDPushAuthCodeRetriever *)[(UDAuthTokenRetriever *)[[UDOAuthBasic sharedOAuth] tokenRetriever] codeDelegate];
+    self.reachability = [Reachability reachabilityWithHostname:[[UDOAuthBasic sharedOAuth] reachabilityServer]];
     self.reachability.reachableOnWWAN = YES;
-    
     [self.reachability startNotifier];
     
     return YES;
@@ -35,18 +60,7 @@ UDPushAuth
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
-#if DEBUG
-    NSLog(@"Device token: %@", deviceToken);
-#endif
     [self.authCodeRetriever registerDeviceWithPushToken:deviceToken];
-}
-
-- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
-{
-#if DEBUG
-	NSLog(@"Failed to get token, error: %@", error);
-#endif
-    
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
@@ -54,5 +68,11 @@ UDPushAuth
     [self.pushNotificatonCenter processPushNotification:userInfo];
 }
 ```
+
+Использование
+---
+
+`[[UDOAuthBasic sharedOAuth] authenticateRequest:(NSURLRequest *) request]` -
+Возвращает аутентифицированный NSURLRequest или nil, если аутентификация невозможна.
 
 
