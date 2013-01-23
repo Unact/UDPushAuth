@@ -71,8 +71,11 @@ UDPushAuth
 
 Использование
 ---
+AuthToken доступен через свойство tokenValue класса UDOAuthBasicAbstract.
+Конкретные варианты использования токена реализуюися в наследниках UDOAuthBasicAbstract.
+
+Пример реализации субкласса - UDOAuthBasic (не поставляется в составе cocoapods библиотеки).
+UDOAuthBasic реализует совместимость с версией 0.1
 
 `[[UDOAuthBasic sharedOAuth] authenticateRequest:(NSURLRequest *) request]` -
 Возвращает аутентифицированный NSURLRequest или nil, если аутентификация невозможна.
-
-
