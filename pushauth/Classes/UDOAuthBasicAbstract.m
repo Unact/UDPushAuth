@@ -21,6 +21,15 @@
 
 @implementation UDOAuthBasicAbstract
 
+- (NSString *) tokenValue{
+    if (self.authToken != nil && self.authToken.isValid){
+        return self.authToken.value;
+    }
+    else{
+        return nil;
+    }
+}
+
 - (void) setTokenRetriever:(id<UDAuthTokenRetrievable>)tokenRetriever{
     if (_tokenRetriever != tokenRetriever) {
         _tokenRetriever = tokenRetriever;
@@ -52,17 +61,6 @@
     if ((self.authToken == nil || self.authToken.ttl < TOKEN_ACTIVE_LIFETIME) && [Reachability reachabilityWithHostname:self.reachabilityServer].isReachable) {
         [self.tokenRetriever requestToken];
     }
-}
-
-- (NSURLRequest *) authenticateRequest:(NSURLRequest *)request{
-    NSMutableURLRequest *resultingRequest = nil;
-    
-    if (self.authToken != nil && self.authToken.isValid) {
-        resultingRequest = [request mutableCopy];
-        [resultingRequest addValue:[NSString stringWithFormat:@"Bearer %@",self.authToken.value] forHTTPHeaderField:@"Authorization"];
-    }
-    
-    return resultingRequest;
 }
 
 - (void) reachabilityChanged:(NSNotification *)notification{

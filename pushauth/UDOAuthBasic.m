@@ -16,6 +16,17 @@
     return TOKEN_SERVER_URL;
 }
 
+- (NSURLRequest *) authenticateRequest:(NSURLRequest *)request{
+    NSMutableURLRequest *resultingRequest = nil;
+    
+    if (self.tokenValue != nil) {
+        resultingRequest = [request mutableCopy];
+        [resultingRequest addValue:[NSString stringWithFormat:@"Bearer %@",self.tokenValue] forHTTPHeaderField:@"Authorization"];
+    }
+    
+    return resultingRequest;
+}
+
 + (id) tokenRetrieverMaker{
     UDAuthTokenRetriever *tokenRetriever = [[UDAuthTokenRetriever alloc] init];
     tokenRetriever.authServiceURI = [NSURL URLWithString:AUTH_SERVICE_URI];

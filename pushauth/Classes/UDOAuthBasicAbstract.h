@@ -13,8 +13,8 @@
 @interface UDOAuthBasicAbstract : NSObject <UDTokenRetrieverDelegate>
 @property (strong,nonatomic) id <UDAuthTokenRetrievable> tokenRetriever;
 @property (readonly,nonatomic) NSString *reachabilityServer;
+@property (readonly,nonatomic) NSString *tokenValue;
 - (void) forceTokenRequest;
-- (NSURLRequest *) authenticateRequest:(NSURLRequest *) request;
 - (void) checkToken;
 - (void) reachabilityChanged:(NSNotification *)notification;
 + (id)sharedOAuth;
