@@ -12,4 +12,6 @@
 @protocol UDAuthTokenRetrievable <NSObject>
 @property (weak,nonatomic) id <UDTokenRetrieverDelegate> delegate;
 - (void) requestToken;
+- (void) requestTokenWithAuthCode:(NSString *) code ClientID:(NSString *) clientID ClientSecret:(NSString *) clientSecret;
+- (void) requestTokenWithRefreshToken:(NSString *) code ClientID:(NSString *) clientID ClientSecret:(NSString *) clientSecret;
 @end

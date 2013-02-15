@@ -16,10 +16,16 @@
 #define TOKEN_ACTIVE_LIFETIME 28800 //sec
 
 @interface UDOAuthBasicAbstract()
-@property (strong,nonatomic) UDAuthToken * authToken;
+@property (strong,nonatomic) UDAuthToken *authToken;
+@property (strong,nonatomic) UDAuthToken *refreshToken;
+@property (strong,nonatomic) NSString *clientSecret;
 @end
 
 @implementation UDOAuthBasicAbstract
+
+- (NSString *) clientID{
+    return nil;
+}
 
 - (NSString *) tokenValue{
     if (self.authToken != nil && self.authToken.isValid){
@@ -27,6 +33,12 @@
     }
     else{
         return nil;
+    }
+}
+
+- (void) setClientSecret:(NSString *)clientSecret{
+    if (_clientSecret != clientSecret) {
+        _clientSecret = clientSecret;
     }
 }
 
@@ -40,15 +52,30 @@
 }
 
 - (void) tokenReceived:(UDAuthToken *) token{    
-    if (token != nil && token != self.authToken) {
-        self.authToken = token;
+    if (token != nil ) {
         
-        NSLog(@"Token Received with ttl: %f",self.authToken.ttl);
+        if (token.type == UDAuthTokenType && token != self.authToken) {
+            self.authToken = token;
+            NSLog(@"Auth Token Received with ttl: %f",self.authToken.ttl);
+        }
+        else if (token.type == UDRefreshTokenType && token != self.refreshToken){
+            self.refreshToken = token;
+            NSLog(@"Refresh Token Received with ttl: %f",self.refreshToken.ttl);
+        }
     }
 }
 
 - (void) forceTokenRequest{
-    [self.tokenRetriever requestToken];
+    if (self.refreshToken != nil) {
+        [self.tokenRetriever requestTokenWithRefreshToken:self.refreshToken.value ClientID:self.clientID ClientSecret:self.clientSecret];
+    }
+    else{
+        [self.tokenRetriever requestToken];
+    }
+}
+
+- (void) authCodeReceived:(NSString *)authCode forRedirectURI:(NSString *)redirectUri{
+    [self.tokenRetriever requestTokenWithAuthCode:authCode ClientID:self.clientID ClientSecret:self.clientSecret];
 }
 
 - (void) checkToken{
@@ -59,7 +86,7 @@
     }
     
     if ((self.authToken == nil || self.authToken.ttl < TOKEN_ACTIVE_LIFETIME) && [Reachability reachabilityWithHostname:self.reachabilityServer].isReachable) {
-        [self.tokenRetriever requestToken];
+        [self forceTokenRequest];
     }
 }
 

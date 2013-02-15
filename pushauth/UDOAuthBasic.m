@@ -27,6 +27,10 @@
     return resultingRequest;
 }
 
+- (NSString *) clientID {
+    return @"websystem";
+}
+
 + (id) tokenRetrieverMaker{
     UDAuthTokenRetriever *tokenRetriever = [[UDAuthTokenRetriever alloc] init];
     tokenRetriever.authServiceURI = [NSURL URLWithString:AUTH_SERVICE_URI];

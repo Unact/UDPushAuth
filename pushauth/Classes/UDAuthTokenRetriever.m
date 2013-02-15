@@ -25,37 +25,94 @@
     __weak __typeof(&*self) weakSelf = self;
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
-        if (error != nil) {
-            NSLog(@"auth error %@",error);
-            return;
-        }
-        
-        GDataXMLDocument * responseXML = [[GDataXMLDocument alloc] initWithData:data options:0 error:nil];
-        if (responseXML == nil) {
-            NSLog(@"xml document error");
-            return;
-        }
-        
-        NSDictionary *xmlns = [NSDictionary dictionaryWithObject:@"http://unact.net/xml/oauth" forKey:@"oauth"];
-        
-        GDataXMLNode *accessTokenValue = nil;
-        
-        if ([responseXML nodesForXPath:@"oauth:response/oauth:access-token" namespaces:xmlns error:nil].count > 0) {
-             accessTokenValue = [[responseXML nodesForXPath:@"oauth:response/oauth:access-token" namespaces:xmlns error:nil] objectAtIndex:0];
-        }
-        
-        if (accessTokenValue == nil) {
-            NSLog(@"xml node error");
-            
-            return;
-        }
-        
+        [weakSelf processTokenResponse:response Data:data Error:error];
+    }];
+}
+
+- (void) requestTokenWithAuthCode:(NSString *) code ClientID:(NSString *) clientID ClientSecret:(NSString *) clientSecret{
+    NSString *urlString = [NSString stringWithFormat:@"%@?_host=hqvsrv73&_svc=a/uoauth/token",self.authServiceURI];
+    NSString *requestPOSTParameters = [NSString stringWithFormat:@"client_id=%@&code=%@&client_secret=%@",clientID,code,clientSecret];
+    
+    urlString = [urlString stringByAppendingFormat:@"&%@",requestPOSTParameters];
+    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+    
+    /*NSData *requestPOSTData = [NSData dataWithBytes: [requestPOSTParameters UTF8String] length: [requestPOSTParameters length]];
+    [request setHTTPMethod: @"POST"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    [request setHTTPBody: requestPOSTData];*/
+    
+    __weak __typeof(&*self) weakSelf = self;
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
+        [weakSelf processTokenResponse:response Data:data Error:error];
+    }];
+}
+
+- (void) requestTokenWithRefreshToken:(NSString *) refreshToken ClientID:(NSString *) clientID ClientSecret:(NSString *) clientSecret{
+    NSString *urlString = [NSString stringWithFormat:@"%@?_host=hqvsrv73&_svc=a/uoauth/token",self.authServiceURI];
+    NSString *requestPOSTParameters = [NSString stringWithFormat:@"client_id=%@&code=%@&client_secret=%@",clientID,refreshToken,clientSecret];
+    
+    urlString = [urlString stringByAppendingFormat:@"&%@",requestPOSTParameters];
+    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+    
+    /*NSData *requestPOSTData = [NSData dataWithBytes: [requestPOSTParameters UTF8String] length: [requestPOSTParameters length]];
+    [request setHTTPMethod: @"POST"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    [request setHTTPBody: requestPOSTData];*/
+    
+    __weak __typeof(&*self) weakSelf = self;
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
+            [weakSelf processTokenResponse:response Data:data Error:error];
+    }];
+}
+
+- (void) processTokenResponse:(NSURLResponse *) response Data:(NSData *) data Error:(NSError *) error{
+    if (error != nil) {
+        NSLog(@"auth error %@",error);
+        return;
+    }
+    
+    NSLog(@"");
+    
+    GDataXMLDocument * responseXML = [[GDataXMLDocument alloc] initWithData:data options:0 error:nil];
+    if (responseXML == nil) {
+        NSLog(@"xml document error");
+        return;
+    }
+    
+    NSDictionary *xmlns = [NSDictionary dictionaryWithObject:@"http://unact.net/xml/oauth" forKey:@"oauth"];
+    
+    GDataXMLNode *accessTokenValue = nil;
+    
+    
+    if ([responseXML nodesForXPath:@"oauth:response/oauth:access-token" namespaces:xmlns error:nil].count > 0) {
+        accessTokenValue = [[responseXML nodesForXPath:@"oauth:response/oauth:access-token" namespaces:xmlns error:nil] objectAtIndex:0];
+    }
+    
+    if (accessTokenValue != nil) {
         UDAuthToken * accessToken = [[UDAuthToken alloc] init];
         accessToken.value = accessTokenValue.stringValue;
         accessToken.lifetime = DEFAULT_TOKEN_LIFETIME;
+        accessToken.type = UDAuthTokenType;
         
-        [weakSelf tokenReceived:accessToken];
-    }];
+        [self tokenReceived:accessToken];
+    }
+    
+    GDataXMLNode *refreshTokenValue = nil;
+    
+    if ([responseXML nodesForXPath:@"oauth:response/oauth:refresh-token" namespaces:xmlns error:nil].count > 0) {
+        refreshTokenValue = [[responseXML nodesForXPath:@"oauth:response/oauth:refresh-token" namespaces:xmlns error:nil] objectAtIndex:0];
+    }
+    
+    if (refreshTokenValue != nil){
+        UDAuthToken * refreshToken = [[UDAuthToken alloc] init];
+        refreshToken.value = accessTokenValue.stringValue;
+        refreshToken.lifetime = DEFAULT_TOKEN_LIFETIME*365;
+        refreshToken.type = UDRefreshTokenType;
+        
+        [self tokenReceived:refreshToken];
+    }
 }
 
 + (id) tokenRetriever{
