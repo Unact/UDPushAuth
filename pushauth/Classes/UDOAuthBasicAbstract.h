@@ -14,7 +14,7 @@
 @interface UDOAuthBasicAbstract : NSObject <UDTokenRetrieverDelegate,UDAuthCodeRetrieverDelegate>
 @property (strong,nonatomic) id <UDAuthTokenRetrievable> tokenRetriever;
 @property (readonly,nonatomic) NSString *reachabilityServer;
-@property (readonly,nonatomic) NSString *clientID;
+@property (strong,nonatomic) NSString *clientID;
 @property (readonly,nonatomic) NSString *tokenValue;
 @property (readonly,nonatomic) UDAuthToken *authToken;
 - (void) forceTokenRequest;
