@@ -16,7 +16,6 @@
 #define TOKEN_ACTIVE_LIFETIME 28800 //sec
 
 @interface UDOAuthBasicAbstract()
-@property (strong,nonatomic) UDAuthToken *authToken;
 @property (strong,nonatomic) UDAuthToken *refreshToken;
 @property (strong,nonatomic) NSString *clientSecret;
 @end
@@ -51,11 +50,11 @@
     }
 }
 
-- (void) tokenReceived:(UDAuthToken *) token{    
+- (void) tokenReceived:(UDAuthToken *) token{
     if (token != nil ) {
         
         if (token.type == UDAuthTokenType && token != self.authToken) {
-            self.authToken = token;
+            _authToken = token;
             NSLog(@"Auth Token Received with ttl: %f",self.authToken.ttl);
         }
         else if (token.type == UDRefreshTokenType && token != self.refreshToken){

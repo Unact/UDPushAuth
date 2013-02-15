@@ -16,6 +16,7 @@
 @property (readonly,nonatomic) NSString *reachabilityServer;
 @property (readonly,nonatomic) NSString *clientID;
 @property (readonly,nonatomic) NSString *tokenValue;
+@property (readonly,nonatomic) UDAuthToken *authToken;
 - (void) forceTokenRequest;
 - (void) checkToken;
 - (void) reachabilityChanged:(NSNotification *)notification;
