@@ -22,10 +22,6 @@
 
 @implementation UDOAuthBasicAbstract
 
-- (NSString *) clientID{
-    return nil;
-}
-
 - (NSString *) tokenValue{
     if (self.authToken != nil && self.authToken.isValid){
         return self.authToken.value;
