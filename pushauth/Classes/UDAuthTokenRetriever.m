@@ -91,11 +91,7 @@
     }
     
     if (accessTokenValue != nil) {
-        UDAuthToken * accessToken = [[UDAuthToken alloc] init];
-        accessToken.value = accessTokenValue.stringValue;
-        accessToken.lifetime = DEFAULT_TOKEN_LIFETIME;
-        accessToken.type = UDAuthTokenType;
-        
+        UDAuthToken * accessToken = [UDAuthToken accessTokenWithWalue:accessTokenValue.stringValue Lifetime:DEFAULT_TOKEN_LIFETIME];
         [self tokenReceived:accessToken];
     }
     
@@ -106,11 +102,7 @@
     }
     
     if (refreshTokenValue != nil){
-        UDAuthToken * refreshToken = [[UDAuthToken alloc] init];
-        refreshToken.value = accessTokenValue.stringValue;
-        refreshToken.lifetime = DEFAULT_TOKEN_LIFETIME*365;
-        refreshToken.type = UDRefreshTokenType;
-        
+        UDAuthToken * refreshToken = [UDAuthToken refreshTokenWithWalue:accessTokenValue.stringValue Lifetime:DEFAULT_TOKEN_LIFETIME*365];
         [self tokenReceived:refreshToken];
     }
 }

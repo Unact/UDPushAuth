@@ -8,17 +8,21 @@
 
 #import <Foundation/Foundation.h>
 
-enum UDAuthTokenType {
-    UDAuthTokenType = 0,
+typedef enum UDTokenType{
+    UDAccessTokenType = 0,
     UDRefreshTokenType = 1
-    };
+    } UDTokenType;
 
 @interface UDAuthToken : NSObject
-@property (strong,nonatomic) NSString *value;
-@property (assign,nonatomic) NSTimeInterval lifetime; //in seconds
+@property (readonly,nonatomic) NSString *value;
+@property (readonly,nonatomic) NSTimeInterval lifetime; //in seconds
+@property (readonly,nonatomic) UDTokenType type;
 @property (readonly,nonatomic) NSDate *creationTime;
 @property (readonly,nonatomic) NSTimeInterval ttl;
 @property (readonly,nonatomic) NSDate *expirationTime;
 @property (readonly,nonatomic) BOOL isValid;
-@property (assign,nonatomic) NSUInteger type;
+
+- (id) initWithValue:(NSString *) value Lifetime:(NSTimeInterval) lifetime Type:(UDTokenType) type;
++ (id) accessTokenWithWalue:(NSString *) value Lifetime:(NSTimeInterval) lifetime;
++ (id) refreshTokenWithWalue:(NSString *) value Lifetime:(NSTimeInterval) lifetime;
 @end

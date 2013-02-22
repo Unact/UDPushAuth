@@ -42,6 +42,7 @@
 		F35BB0A31642A206003682FA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F35BB0A11642A206003682FA /* InfoPlist.strings */; };
 		F35BB0A61642A206003682FA /* pushauthTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F35BB0A51642A206003682FA /* pushauthTests.m */; };
 		F3B0E3D2165CE9290092DE27 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3B0E3D1165CE9290092DE27 /* SystemConfiguration.framework */; };
+		F3D897AD16D753F40049FD56 /* UDMutableAuthToken.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D897AC16D753F40049FD56 /* UDMutableAuthToken.m */; };
 		F7C4871A80154E3B90A5DBFD /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4894D763CB404226A721A16B /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -125,6 +126,8 @@
 		F35BB0A41642A206003682FA /* pushauthTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pushauthTests.h; sourceTree = "<group>"; };
 		F35BB0A51642A206003682FA /* pushauthTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = pushauthTests.m; sourceTree = "<group>"; };
 		F3B0E3D1165CE9290092DE27 /* SystemConfiguration.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		F3D897AB16D753F40049FD56 /* UDMutableAuthToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UDMutableAuthToken.h; sourceTree = "<group>"; };
+		F3D897AC16D753F40049FD56 /* UDMutableAuthToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UDMutableAuthToken.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +187,8 @@
 			children = (
 				F32D018616A445FA004FC57C /* UDAuthToken.h */,
 				F32D018716A445FA004FC57C /* UDAuthToken.m */,
+				F3D897AB16D753F40049FD56 /* UDMutableAuthToken.h */,
+				F3D897AC16D753F40049FD56 /* UDMutableAuthToken.m */,
 				F32D018816A445FA004FC57C /* UDAuthTokenProcessable.h */,
 				F32D018916A445FA004FC57C /* UDAuthTokenRetrievable.h */,
 				F32D018A16A445FA004FC57C /* UDAuthTokenRetrieverAbstract.h */,
@@ -455,6 +460,7 @@
 				F32D01C616A4462B004FC57C /* UDPushNotificationProcessor.m in Sources */,
 				F32D01C716A4462B004FC57C /* UDPushNotificationProcessorBasic.m in Sources */,
 				F358686516AEB6C300C1FB81 /* UDOAuthBasic.m in Sources */,
+				F3D897AD16D753F40049FD56 /* UDMutableAuthToken.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

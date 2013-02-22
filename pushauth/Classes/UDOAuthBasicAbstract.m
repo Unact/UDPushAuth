@@ -49,7 +49,7 @@
 - (void) tokenReceived:(UDAuthToken *) token{
     if (token != nil ) {
         
-        if (token.type == UDAuthTokenType && token != self.authToken) {
+        if (token.type == UDAccessTokenType && token != self.authToken) {
             _authToken = token;
             NSLog(@"Auth Token Received with ttl: %f",self.authToken.ttl);
         }
