@@ -136,7 +136,7 @@
 }
 
 - (void) dealloc{
-    [self.reachability startNotifier];
+    [self.reachability stopNotifier];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
