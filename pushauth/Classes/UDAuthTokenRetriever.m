@@ -10,7 +10,8 @@
 #import "UDPushAuthCodeRetriever.h"
 #import "GDataXMLNode.h"
 
-#define DEFAULT_TOKEN_LIFETIME 36000
+#define DEFAULT_ACCESS_TOKEN_LIFETIME 3600
+#define DEFAULT_REFRESH_TOKEN_LIFETIME 3600*24*30
 
 @implementation UDAuthTokenRetriever
 - (void) performTokenRequestWithAuthCode:(NSString *)authCode andRedirectURI:(NSString *)redirectURI{
@@ -37,9 +38,9 @@
     NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     
     /*NSData *requestPOSTData = [NSData dataWithBytes: [requestPOSTParameters UTF8String] length: [requestPOSTParameters length]];
-    [request setHTTPMethod: @"POST"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
-    [request setHTTPBody: requestPOSTData];*/
+     [request setHTTPMethod: @"POST"];
+     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+     [request setHTTPBody: requestPOSTData];*/
     
     __weak __typeof(&*self) weakSelf = self;
     
@@ -56,14 +57,14 @@
     NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     
     /*NSData *requestPOSTData = [NSData dataWithBytes: [requestPOSTParameters UTF8String] length: [requestPOSTParameters length]];
-    [request setHTTPMethod: @"POST"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
-    [request setHTTPBody: requestPOSTData];*/
+     [request setHTTPMethod: @"POST"];
+     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+     [request setHTTPBody: requestPOSTData];*/
     
     __weak __typeof(&*self) weakSelf = self;
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
-            [weakSelf processTokenResponse:response Data:data Error:error];
+        [weakSelf processTokenResponse:response Data:data Error:error];
     }];
 }
 
@@ -91,7 +92,8 @@
     }
     
     if (accessTokenValue != nil) {
-        UDAuthToken * accessToken = [UDAuthToken accessTokenWithWalue:accessTokenValue.stringValue Lifetime:DEFAULT_TOKEN_LIFETIME];
+        UDAuthToken * accessToken = [UDAuthToken accessTokenWithWalue:accessTokenValue.stringValue Lifetime:DEFAULT_ACCESS_TOKEN_LIFETIME];
+        
         [self tokenReceived:accessToken];
     }
     
@@ -102,7 +104,7 @@
     }
     
     if (refreshTokenValue != nil){
-        UDAuthToken * refreshToken = [UDAuthToken refreshTokenWithWalue:accessTokenValue.stringValue Lifetime:DEFAULT_TOKEN_LIFETIME*365];
+        UDAuthToken * refreshToken = [UDAuthToken refreshTokenWithWalue:accessTokenValue.stringValue Lifetime:DEFAULT_REFRESH_TOKEN_LIFETIME];
         [self tokenReceived:refreshToken];
     }
 }
