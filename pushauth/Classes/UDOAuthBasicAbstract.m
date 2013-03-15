@@ -18,6 +18,7 @@
 @property (strong,nonatomic) UDAuthToken *refreshToken;
 @property (strong,nonatomic) NSString *clientSecret;
 @property (strong,nonatomic) Reachability *reachability;
+@property (strong,nonatomic) NSTimer *tokenCheckTimer;
 @end
 
 @implementation UDOAuthBasicAbstract
@@ -87,11 +88,15 @@
 - (void) checkToken{
     NSLog(@"Check token with ttl %f",self.authToken.ttl);
     
+    if ([self.tokenCheckTimer isValid]){
+        [self.tokenCheckTimer invalidate];
+    }
+    
     if (self.authToken == nil || self.authToken.ttl < 1) {
-        [NSTimer scheduledTimerWithTimeInterval:FORCED_TOKEN_CHECK_INTERVAL target:self selector:@selector(checkToken) userInfo:nil repeats:NO];
+        self.tokenCheckTimer = [NSTimer scheduledTimerWithTimeInterval:FORCED_TOKEN_CHECK_INTERVAL target:self selector:@selector(checkToken) userInfo:nil repeats:NO];
     }
     else {
-        [NSTimer scheduledTimerWithTimeInterval:TOKEN_CHECK_INTERVAL target:self selector:@selector(checkToken) userInfo:nil repeats:NO];
+        self.tokenCheckTimer = [NSTimer scheduledTimerWithTimeInterval:TOKEN_CHECK_INTERVAL target:self selector:@selector(checkToken) userInfo:nil repeats:NO];
     };
     
     if ((self.authToken == nil || self.authToken.ttl < self.authToken.lifetime - TOKEN_CHECK_INTERVAL*3)) {
