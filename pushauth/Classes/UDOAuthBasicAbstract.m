@@ -99,7 +99,7 @@
         self.tokenCheckTimer = [NSTimer scheduledTimerWithTimeInterval:TOKEN_CHECK_INTERVAL target:self selector:@selector(checkToken) userInfo:nil repeats:NO];
     };
     
-    if ((self.authToken == nil || self.authToken.ttl < self.authToken.lifetime - TOKEN_CHECK_INTERVAL*3)) {
+    if ((self.authToken == nil || self.authToken.ttl < TOKEN_CHECK_INTERVAL*3)) {
         if (self.reachability != nil) {
             if (self.reachability.isReachable){
                 [self forceTokenRequest];
