@@ -104,7 +104,7 @@
     }
     
     if (refreshTokenValue != nil){
-        UDAuthToken * refreshToken = [UDAuthToken refreshTokenWithWalue:accessTokenValue.stringValue Lifetime:DEFAULT_REFRESH_TOKEN_LIFETIME];
+        UDAuthToken * refreshToken = [UDAuthToken refreshTokenWithWalue:refreshTokenValue.stringValue Lifetime:DEFAULT_REFRESH_TOKEN_LIFETIME];
         [self tokenReceived:refreshToken];
     }
 }
