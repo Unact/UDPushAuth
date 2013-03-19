@@ -51,7 +51,7 @@
 
 - (void) requestTokenWithRefreshToken:(NSString *) refreshToken ClientID:(NSString *) clientID ClientSecret:(NSString *) clientSecret{
     NSString *urlString = [NSString stringWithFormat:@"%@?_host=hqvsrv73&_svc=a/uoauth/token",self.authServiceURI];
-    NSString *requestPOSTParameters = [NSString stringWithFormat:@"client_id=%@&refreh_token=%@&client_secret=%@",clientID,refreshToken,clientSecret];
+    NSString *requestPOSTParameters = [NSString stringWithFormat:@"client_id=%@&refresh_token=%@&client_secret=%@",clientID,refreshToken,clientSecret];
     
     urlString = [urlString stringByAppendingFormat:@"&%@",requestPOSTParameters];
     NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
