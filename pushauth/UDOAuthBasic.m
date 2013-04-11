@@ -8,7 +8,7 @@
 
 #import "UDOAuthBasic.h"
 #define TOKEN_SERVER_URL @"system.unact.ru"
-#define AUTH_SERVICE_URI @"https://system.unact.ru/asa"
+#define AUTH_SERVICE_URI @"https://uoauth.unact.ru/a/UPushAuth/"
 
 @implementation UDOAuthBasic
 
@@ -38,9 +38,9 @@
     UDPushAuthCodeRetriever *codeRetriever = [UDPushAuthCodeRetriever codeRetriever];
     codeRetriever.requestDelegate.uPushAuthServiceURI = [NSURL URLWithString:AUTH_SERVICE_URI];
 #if DEBUG
-    [(UDPushAuthRequestBasic *)[codeRetriever requestDelegate] setConstantGetParameters:@"_host=hqvsrv73&app_id=pushauth-dev&_svc=a/UPushAuth/"];
+    [(UDPushAuthRequestBasic *)[codeRetriever requestDelegate] setConstantGetParameters:@"app_id=pushauth-dev"];
 #else
-    [(UDPushAuthRequestBasic *)[codeRetriever requestDelegate] setConstantGetParameters:@"_host=hqvsrv73&app_id=pushauth&_svc=a/UPushAuth/"];
+    [(UDPushAuthRequestBasic *)[codeRetriever requestDelegate] setConstantGetParameters:@"app_id=pushauth"];
 #endif
     tokenRetriever.codeDelegate = codeRetriever;
     

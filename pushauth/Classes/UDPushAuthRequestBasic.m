@@ -125,7 +125,8 @@
 
 - (NSURL *) urlWithResouce:(NSString *)resource andParameters:(NSString *) parameters{
     NSString *urlString = [NSString stringWithFormat:@"%@",self.uPushAuthServiceURI];
-    urlString = [urlString stringByAppendingFormat:@"?%@%@&%@",self.constantGetParameters,resource,parameters];
+    urlString = [urlString stringByAppendingPathComponent:[NSString stringWithFormat:@"%@?%@&%@",resource,self.constantGetParameters,parameters]];
+    //urlString = [urlString stringByAppendingFormat:@"/%@&%@",self.constantGetParameters,resource,parameters];
     NSLog(@"URL %@",urlString);
     return [NSURL URLWithString:urlString];
 }
