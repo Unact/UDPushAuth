@@ -9,5 +9,6 @@
 #import "UDAuthTokenRetrieverAbstract.h"
 
 @interface UDAuthTokenRetriever : UDAuthTokenRetrieverAbstract
+- (NSURLRequest *) requestWithResource:(NSString *) resource Parameters:(NSString *) parameters;
 + (id) tokenRetriever;
 @end

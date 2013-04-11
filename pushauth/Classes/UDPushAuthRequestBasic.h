@@ -12,4 +12,5 @@
 @interface UDPushAuthRequestBasic : NSObject <UDPushAuthRequestDelegate>
 @property (readonly) NSString * deviceType;
 @property (strong,nonatomic) NSString *constantGetParameters;
+- (NSURLRequest *) requestWithResource:(NSString *) resource Parameters:(NSString *) parameters;
 @end

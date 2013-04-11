@@ -7,13 +7,16 @@
 //
 
 #import "UDOAuthBasic.h"
-#define TOKEN_SERVER_URL @"system.unact.ru"
-#define AUTH_SERVICE_URI @"https://uoauth.unact.ru/a/UPushAuth/"
+
+#define CLIENT_ID @"websystem"
+#define PUSHAUTH_SERVICE_URI @"https://uoauth.unact.ru/a/UPushAuth/"
+#define AUTH_SERVICE_URI @"https://uoauth.unact.ru/a/uoauth/"
+#define REACHABILITY_SERVER  @"uoauth.unact.ru"
 
 @implementation UDOAuthBasic
 
 - (NSString *) reachabilityServer{
-    return TOKEN_SERVER_URL;
+    return REACHABILITY_SERVER;
 }
 
 - (NSURLRequest *) authenticateRequest:(NSURLRequest *)request{
@@ -28,7 +31,7 @@
 }
 
 - (NSString *) clientID {
-    return @"websystem";
+    return CLIENT_ID;
 }
 
 + (id) tokenRetrieverMaker{
@@ -36,7 +39,7 @@
     tokenRetriever.authServiceURI = [NSURL URLWithString:AUTH_SERVICE_URI];
     
     UDPushAuthCodeRetriever *codeRetriever = [UDPushAuthCodeRetriever codeRetriever];
-    codeRetriever.requestDelegate.uPushAuthServiceURI = [NSURL URLWithString:AUTH_SERVICE_URI];
+    codeRetriever.requestDelegate.uPushAuthServiceURI = [NSURL URLWithString:PUSHAUTH_SERVICE_URI];
 #if DEBUG
     [(UDPushAuthRequestBasic *)[codeRetriever requestDelegate] setConstantGetParameters:@"app_id=pushauth-dev"];
 #else

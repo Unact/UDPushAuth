@@ -30,9 +30,7 @@
 }
 
 - (void) registerDeviceWithPushToken:(NSString *)pushToken andCompleteonHandler:(void (^)(NSString *, BOOL))completeonHandler {
-    NSURL *url = [self urlWithResouce:@"register" andParameters:[NSString stringWithFormat:@"push_token=%@&device_type=%@",pushToken,self.deviceType]];
-    
-    NSURLRequest * request = [NSURLRequest requestWithURL:url];
+    NSURLRequest * request = [self requestWithResource:@"register" Parameters:[NSString stringWithFormat:@"push_token=%@&device_type=%@",pushToken,self.deviceType]];
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
         if (error != nil) {
@@ -58,9 +56,7 @@
     
 }
 - (void) activateDevice:(NSString *) deviceID WithActivationCode:(NSString *) activationCode CompleteonHandler:(void ( ^ ) (BOOL activationStatus)) completeonHandler{
-    NSURL *url = [self urlWithResouce:@"activate" andParameters:[NSString stringWithFormat:@"device_id=%@&activation_code=%@",deviceID,activationCode]];
-    
-    NSURLRequest * request = [NSURLRequest requestWithURL:url];
+    NSURLRequest * request = [self requestWithResource:@"activate" Parameters:[NSString stringWithFormat:@"device_id=%@&activation_code=%@",deviceID,activationCode]];
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
         if (error != nil) {
@@ -94,9 +90,7 @@
 }
 
 - (void) authenticateDevice:(NSString *) deviceID WithCompleteonHandler:(void ( ^ ) (NSString *authCode, NSString *codeIdentifier)) completeonHandler{
-    NSURL *url = [self urlWithResouce:@"auth" andParameters:[NSString stringWithFormat:@"client_id=test&redirect_uri=upush://%@",deviceID]];
-    
-    NSURLRequest * request = [NSURLRequest requestWithURL:url];
+    NSURLRequest * request = [self requestWithResource:@"auth" Parameters:[NSString stringWithFormat:@"client_id=test&redirect_uri=upush://%@",deviceID]];
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
         if (error != nil) {
@@ -120,15 +114,19 @@
         
         completeonHandler(authCodeNode.stringValue,authCodeIDNode.stringValue);
     }];
-    
 }
 
-- (NSURL *) urlWithResouce:(NSString *)resource andParameters:(NSString *) parameters{
-    NSString *urlString = [NSString stringWithFormat:@"%@",self.uPushAuthServiceURI];
-    urlString = [urlString stringByAppendingPathComponent:[NSString stringWithFormat:@"%@?%@&%@",resource,self.constantGetParameters,parameters]];
-    //urlString = [urlString stringByAppendingFormat:@"/%@&%@",self.constantGetParameters,resource,parameters];
-    NSLog(@"URL %@",urlString);
-    return [NSURL URLWithString:urlString];
+- (NSURLRequest *) requestWithResource:(NSString *) resource Parameters:(NSString *) parameters{
+    NSURL *url = [self.uPushAuthServiceURI URLByAppendingPathComponent:resource];
+    parameters = [parameters stringByAppendingFormat:@"&%@",self.constantGetParameters];
+    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
+    
+    NSData *requestPOSTData = [NSData dataWithBytes: [parameters UTF8String] length: [parameters length]];
+    [request setHTTPMethod: @"POST"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    [request setHTTPBody: requestPOSTData];
+    
+    return request;
 }
 
 @end
