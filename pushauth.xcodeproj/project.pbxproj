@@ -581,13 +581,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 226D4B047B5845D0BD593C04 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Vladislav Kovtash (YTS59LUC4B)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vladislav Kovtash (YTS59LUC4B)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pushauth/pushauth-Prefix.pch";
 				INFOPLIST_FILE = "pushauth/pushauth-Info.plist";
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "1BC022C3-BE25-4419-AB15-2624C8193B03";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1BC022C3-BE25-4419-AB15-2624C8193B03";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -596,13 +598,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 226D4B047B5845D0BD593C04 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Vladislav Kovtash (YTS59LUC4B)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vladislav Kovtash (YTS59LUC4B)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pushauth/pushauth-Prefix.pch";
 				INFOPLIST_FILE = "pushauth/pushauth-Info.plist";
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "1BC022C3-BE25-4419-AB15-2624C8193B03";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1BC022C3-BE25-4419-AB15-2624C8193B03";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

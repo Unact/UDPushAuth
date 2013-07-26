@@ -8,7 +8,6 @@
 
 #import "UDAuthTokenRetriever.h"
 #import "UDPushAuthCodeRetriever.h"
-#import "GDataXMLNode.h"
 
 #define DEFAULT_ACCESS_TOKEN_LIFETIME 3600
 #define DEFAULT_REFRESH_TOKEN_LIFETIME 3600*24*30
@@ -20,9 +19,13 @@
     
     __weak __typeof(&*self) weakSelf = self;
     
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
-        [weakSelf processTokenResponse:response Data:data Error:error];
-    }];
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
+                               if ([weakSelf respondsToSelector:@selector(processTokenResponse:Data:Error:)]) {
+                                   [weakSelf processTokenResponse:response Data:data Error:error];
+                               }
+                           }];
 }
 
 - (void) requestTokenWithAuthCode:(NSString *) code ClientID:(NSString *) clientID ClientSecret:(NSString *) clientSecret{
@@ -31,9 +34,13 @@
     
     __weak __typeof(&*self) weakSelf = self;
     
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
-        [weakSelf processTokenResponse:response Data:data Error:error];
-    }];
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
+                               if ([weakSelf respondsToSelector:@selector(processTokenResponse:Data:Error:)]) {
+                                   [weakSelf processTokenResponse:response Data:data Error:error];
+                               }
+                           }];
 }
 
 - (void) requestTokenWithRefreshToken:(NSString *) refreshToken ClientID:(NSString *) clientID ClientSecret:(NSString *) clientSecret{
@@ -42,9 +49,13 @@
     
     __weak __typeof(&*self) weakSelf = self;
     
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
-        [weakSelf processTokenResponse:response Data:data Error:error];
-    }];
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
+                               if ([weakSelf respondsToSelector:@selector(processTokenResponse:Data:Error:)]) {
+                                   [weakSelf processTokenResponse:response Data:data Error:error];
+                               }
+                           }];
 }
 
 - (void) processTokenResponse:(NSURLResponse *) response Data:(NSData *) data Error:(NSError *) error{
@@ -53,51 +64,43 @@
         return;
     }
     
-    GDataXMLDocument * responseXML = [[GDataXMLDocument alloc] initWithData:data options:0 error:nil];
-    if (responseXML == nil) {
-        NSLog(@"xml document error");
+    NSError *parseError= nil;
+    
+    NSDictionary *responseData = [NSJSONSerialization JSONObjectWithData: data
+                                                                 options: NSJSONReadingMutableContainers
+                                                                   error: &parseError];
+    if (parseError) {
+        NSLog(@"Error parsing JSON %@",parseError.description);
         return;
     }
     
-    NSDictionary *xmlns = [NSDictionary dictionaryWithObject:@"http://unact.net/xml/oauth" forKey:@"oauth"];
+    NSDictionary *accessTokenData = [responseData objectForKey:@"accessToken"];
+    NSDictionary *refreshTokenData = [responseData objectForKey:@"refreshToken"];
     
-    GDataXMLElement *accessTokenValue = nil;
-    
-    
-    if ([responseXML nodesForXPath:@"oauth:response/oauth:access-token" namespaces:xmlns error:nil].count > 0) {
-        accessTokenValue = [[responseXML nodesForXPath:@"oauth:response/oauth:access-token" namespaces:xmlns error:nil] objectAtIndex:0];
-    }
-    
-    if (accessTokenValue != nil) {
-        NSTimeInterval lifetime = [self lifetimeFrom:accessTokenValue WithDefaultValue:DEFAULT_ACCESS_TOKEN_LIFETIME];
-        UDAuthToken * accessToken = [UDAuthToken accessTokenWithWalue:accessTokenValue.stringValue Lifetime:lifetime];
+    if (accessTokenData != nil) {
+        UDAuthToken * accessToken = [self tokenFromDict:accessTokenData
+                                    withDefaultLifetime:DEFAULT_ACCESS_TOKEN_LIFETIME];
         [self tokenReceived:accessToken];
     }
     
-    GDataXMLNode *refreshTokenValue = nil;
-    
-    if ([responseXML nodesForXPath:@"oauth:response/oauth:refresh-token" namespaces:xmlns error:nil].count > 0) {
-        refreshTokenValue = [[responseXML nodesForXPath:@"oauth:response/oauth:refresh-token" namespaces:xmlns error:nil] objectAtIndex:0];
-    }
-    
-    if (refreshTokenValue != nil){
-        NSTimeInterval lifetime = [self lifetimeFrom:accessTokenValue WithDefaultValue:DEFAULT_REFRESH_TOKEN_LIFETIME];
-        UDAuthToken * refreshToken = [UDAuthToken refreshTokenWithWalue:refreshTokenValue.stringValue Lifetime:lifetime];
+    if (refreshTokenData != nil){
+        UDAuthToken * refreshToken = [self tokenFromDict:refreshTokenData
+                                     withDefaultLifetime:DEFAULT_REFRESH_TOKEN_LIFETIME];
         [self tokenReceived:refreshToken];
     }
 }
 
-- (NSTimeInterval) lifetimeFrom:(GDataXMLElement *) element WithDefaultValue:(NSTimeInterval) defaultValue{
-    NSTimeInterval lifetime = defaultValue;
-    NSString *lifetimeString = [[element attributeForName:@"expire-after"] stringValue];
-    
-    if (lifetimeString) {
-        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-        [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-        lifetime = [[formatter numberFromString:lifetimeString] doubleValue];
+- (UDAuthToken *) tokenFromDict:(NSDictionary *) tokenData withDefaultLifetime:(NSTimeInterval) defaultLifetime{
+    UDAuthToken *token = nil;
+    if (tokenData != nil) {
+        NSTimeInterval tokenLifetime = defaultLifetime;
+        if (tokenData[@"expireAfter"]) {
+            tokenLifetime = [(NSNumber *)tokenData[@"expireAfter"] doubleValue];
+        }
+        token = [UDAuthToken accessTokenWithWalue:tokenData[@"token"] Lifetime:tokenLifetime];
     }
     
-    return lifetime;
+    return token;
 }
 
 + (id) tokenRetriever{

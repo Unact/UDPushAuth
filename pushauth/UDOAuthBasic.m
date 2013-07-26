@@ -9,8 +9,8 @@
 #import "UDOAuthBasic.h"
 
 #define CLIENT_ID @"websystem"
-#define PUSHAUTH_SERVICE_URI @"https://uoauth.unact.ru/a/UPushAuth/"
-#define AUTH_SERVICE_URI @"https://uoauth.unact.ru/a/uoauth/"
+#define PUSHAUTH_SERVICE_URI @"https://system.unact.ru/iproxy/pushauth/"
+#define AUTH_SERVICE_URI @"https://system.unact.ru/iproxy/oauth/"
 #define REACHABILITY_SERVER  @"uoauth.unact.ru"
 
 @implementation UDOAuthBasic
