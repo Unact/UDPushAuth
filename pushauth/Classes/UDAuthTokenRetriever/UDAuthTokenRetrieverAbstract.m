@@ -27,6 +27,14 @@
     [self.codeDelegate requestAuthCode];
 }
 
+- (void) requestTokenWithAuthCode:(NSString *) code ClientID:(NSString *) clientID ClientSecret:(NSString *) clientSecret{
+    
+}
+
+- (void) requestTokenWithRefreshToken:(NSString *) code ClientID:(NSString *) clientID ClientSecret:(NSString *) clientSecret{
+    
+}
+
 - (void) authCodeReceived:(NSString *)authCode forRedirectURI:(NSString *)redirectUri{
     [self performTokenRequestWithAuthCode:authCode andRedirectURI:redirectUri];
 }

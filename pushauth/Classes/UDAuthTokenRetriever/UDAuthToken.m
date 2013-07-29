@@ -7,12 +7,16 @@
 //
 
 #import "UDAuthToken.h"
+#import "UDMutableAuthToken.h"
 
 @interface UDAuthToken()
 @property (nonatomic,strong) NSDate *privateCreationTime;
 @end
 
 @implementation UDAuthToken
+@synthesize lifetime = _lifetime;
+@synthesize value = _value;
+@synthesize type = _type;
 
 - (NSDate *) creationTime{
     return self.privateCreationTime;
@@ -35,8 +39,34 @@
     }
 }
 
-- (id) init{
+#pragma mark - NSCopying
+- (id)copyWithZone:(NSZone *)zone{
+    UDAuthToken *result = [[UDAuthToken allocWithZone:zone] init];
     
+    if (result != nil) {
+        result->_value = [_value copyWithZone:zone];
+        result->_type = _type;
+        result->_lifetime = _lifetime;
+        result->_privateCreationTime = [_privateCreationTime copyWithZone:zone];
+    }    
+    return result;
+}
+
+- (id)mutableCopyWithZone:(NSZone *)zone{
+    UDMutableAuthToken *result = [[UDMutableAuthToken allocWithZone:zone] init];
+    
+    if (result != nil) {
+        result.value = [_value copyWithZone:zone];
+        result.type = _type;
+        result.lifetime = _lifetime;
+        result.privateCreationTime = [_privateCreationTime copyWithZone:zone];
+    }
+    
+    return result;
+}
+
+#pragma mart - Initialization
+- (id) init{
     self = [super init];
     
     if (self != nil) {
@@ -44,6 +74,26 @@
     }
     
     return self;
+}
+
+- (id) initWithValue:(NSString *) value Lifetime:(NSTimeInterval) lifetime Type:(UDTokenType) type{
+    self = [self init];
+    
+    if (self != nil){
+        _value = value;
+        _lifetime = lifetime;
+        _type = type;
+    }
+    
+    return self;
+}
+
++ (id) accessTokenWithWalue:(NSString *) value Lifetime:(NSTimeInterval) lifetime{
+    return [[[self class] alloc] initWithValue:(NSString *) value Lifetime:(NSTimeInterval) lifetime Type:(UDTokenType) UDAccessTokenType];
+}
+
++ (id) refreshTokenWithWalue:(NSString *) value Lifetime:(NSTimeInterval) lifetime{
+    return [[[self class] alloc] initWithValue:(NSString *) value Lifetime:(NSTimeInterval) lifetime Type:(UDTokenType) UDRefreshTokenType];
 }
 
 @end

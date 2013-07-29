@@ -7,7 +7,6 @@
 //
 
 #import "UDPushAuthRequestBasic.h"
-#import "GDataXMLNode.h"
 
 @implementation UDPushAuthRequestBasic
 @synthesize uPushAuthServiceURI = _uPushAuthServiceURI;
@@ -30,37 +29,36 @@
 }
 
 - (void) registerDeviceWithPushToken:(NSString *)pushToken andCompleteonHandler:(void (^)(NSString *, BOOL))completeonHandler {
-    NSURL *url = [self urlWithResouce:@"register" andParameters:[NSString stringWithFormat:@"push_token=%@&device_type=%@",pushToken,self.deviceType]];
-    
-    NSURLRequest * request = [NSURLRequest requestWithURL:url];
-    
+    NSURLRequest *request = [self requestWithResource:@"register" Parameters:[NSString stringWithFormat:@"push_token=%@&device_type=%@",pushToken,self.deviceType]]; 
+    NSLog(@"Register URL %@",request);
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
         if (error != nil) {
             NSLog(@"error %@",error);
             return;
         }
         
-        GDataXMLDocument * responseXML = [[GDataXMLDocument alloc] initWithData:data options:0 error:nil];
-        if (responseXML == nil) {
-            NSLog(@"xml document error");
+        NSError *parseError = nil;
+        NSDictionary *responseData = [NSJSONSerialization JSONObjectWithData: data
+                                                                     options: NSJSONReadingMutableContainers
+                                                                       error: &parseError];
+        if (parseError) {
+            NSLog(@"Error parsing JSON %@",parseError.description);
+        }
+        
+        NSString *deviceID = [responseData objectForKey:@"device_id"];
+        
+        if (deviceID == nil) {
+            NSLog(@"deviceID key error");
             return;
         }
         
-        GDataXMLNode *deviceIDNode = [[responseXML nodesForXPath:@"/response/device_id" error:nil] lastObject];
-        
-        if (deviceIDNode == nil) {
-            NSLog(@"deviceID Node error");
-            return;
-        }
-        
-        completeonHandler(deviceIDNode.stringValue,NO);
+        completeonHandler(deviceID,NO);
     }];
     
 }
 - (void) activateDevice:(NSString *) deviceID WithActivationCode:(NSString *) activationCode CompleteonHandler:(void ( ^ ) (BOOL activationStatus)) completeonHandler{
-    NSURL *url = [self urlWithResouce:@"activate" andParameters:[NSString stringWithFormat:@"device_id=%@&activation_code=%@",deviceID,activationCode]];
-    
-    NSURLRequest * request = [NSURLRequest requestWithURL:url];
+    NSURLRequest *request = [self requestWithResource:@"activate" Parameters:[NSString stringWithFormat:@"device_id=%@&activation_code=%@",deviceID,activationCode]];
+    NSLog(@"Activate URL %@",request);
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
         if (error != nil) {
@@ -68,21 +66,26 @@
             return;
         }
         
-        GDataXMLDocument * responseXML = [[GDataXMLDocument alloc] initWithData:data options:0 error:nil];
-        if (responseXML == nil) {
-            NSLog(@"xml document error");
-            return;
+        NSError *parseError = nil;
+        NSDictionary *responseData = [NSJSONSerialization JSONObjectWithData: data
+                                                                     options: NSJSONReadingMutableContainers
+                                                                       error: &parseError];
+        if (parseError) {
+            NSLog(@"Error parsing JSON %@",parseError.description);
         }
         
-        GDataXMLNode *authCodeNode = [[responseXML nodesForXPath:@"/response/activate" error:nil] lastObject];
+        NSString *isActivated = [responseData objectForKey:@"activate"];
         
-        if (authCodeNode == nil) {
-            NSLog(@"activateCode Node error");
+        if (isActivated == nil) {
+            NSLog(@"activate key error");
             completeonHandler(NO);
             return;
         }
+        else{
+            return completeonHandler(YES);
+        }
         
-        if ([authCodeNode.stringValue isEqualToString:@"yes"]) {
+        if ([isActivated isEqualToString:@"yes"]) {
             completeonHandler(YES);
         }
         else{
@@ -94,9 +97,8 @@
 }
 
 - (void) authenticateDevice:(NSString *) deviceID WithCompleteonHandler:(void ( ^ ) (NSString *authCode, NSString *codeIdentifier)) completeonHandler{
-    NSURL *url = [self urlWithResouce:@"auth" andParameters:[NSString stringWithFormat:@"client_id=test&redirect_uri=upush://%@",deviceID]];
-    
-    NSURLRequest * request = [NSURLRequest requestWithURL:url];
+    NSURLRequest *request = [self requestWithResource:@"auth" Parameters:[NSString stringWithFormat:@"client_id=test&redirect_uri=upush://%@",deviceID]];
+    NSLog(@"Auth URL %@ %@",request,deviceID);
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response,NSData *data, NSError *error){
         if (error != nil) {
@@ -104,30 +106,37 @@
             return;
         }
         
-        GDataXMLDocument * responseXML = [[GDataXMLDocument alloc] initWithData:data options:0 error:nil];
-        if (responseXML == nil) {
-            NSLog(@"xml document error");
+        NSError *parseError = nil;
+        NSDictionary *responseData = [NSJSONSerialization JSONObjectWithData: data
+                                                                     options: NSJSONReadingMutableContainers
+                                                                       error: &parseError];
+        if (parseError) {
+            NSLog(@"Error parsing JSON %@",parseError.description);
+        }
+        
+        NSString *authCode = [responseData objectForKey:@"code"];
+        NSNumber *authCodeID = [responseData objectForKey:@"id"];
+        
+        if (!authCode || !authCodeID) {
+            NSLog(@"authCode key error");
             return;
         }
         
-        GDataXMLNode *authCodeNode = [[responseXML nodesForXPath:@"/response/code" error:nil] lastObject];
-        GDataXMLNode *authCodeIDNode = [[responseXML nodesForXPath:@"/response/id" error:nil] lastObject];
-        
-        if (authCodeNode == nil) {
-            NSLog(@"authCode Node error");
-            return;
-        }
-        
-        completeonHandler(authCodeNode.stringValue,authCodeIDNode.stringValue);
+        completeonHandler(authCode,[authCodeID stringValue]);
     }];
-    
 }
 
-- (NSURL *) urlWithResouce:(NSString *)resource andParameters:(NSString *) parameters{
-    NSString *urlString = [NSString stringWithFormat:@"%@",self.uPushAuthServiceURI];
-    urlString = [urlString stringByAppendingFormat:@"?%@%@&%@",self.constantGetParameters,resource,parameters];
-    NSLog(@"URL %@",urlString);
-    return [NSURL URLWithString:urlString];
+- (NSURLRequest *) requestWithResource:(NSString *) resource Parameters:(NSString *) parameters{
+    NSURL *url = [self.uPushAuthServiceURI URLByAppendingPathComponent:resource];
+    parameters = [parameters stringByAppendingFormat:@"&%@",self.constantGetParameters];
+    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
+    
+    NSData *requestPOSTData = [NSData dataWithBytes: [parameters UTF8String] length: [parameters length]];
+    [request setHTTPMethod: @"POST"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    [request setHTTPBody: requestPOSTData];
+    
+    return request;
 }
 
 @end

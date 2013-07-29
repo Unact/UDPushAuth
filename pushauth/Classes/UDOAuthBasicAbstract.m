@@ -13,10 +13,12 @@
 
 #define FORCED_TOKEN_CHECK_INTERVAL 20
 #define TOKEN_CHECK_INTERVAL 300 //sec
-#define TOKEN_ACTIVE_LIFETIME 28800 //sec
 
 @interface UDOAuthBasicAbstract()
-@property (strong,nonatomic) UDAuthToken * authToken;
+@property (strong,nonatomic) UDAuthToken *refreshToken;
+@property (strong,nonatomic) NSString *clientSecret;
+@property (strong,nonatomic) Reachability *reachability;
+@property (strong,nonatomic) NSTimer *tokenCheckTimer;
 @end
 
 @implementation UDOAuthBasicAbstract
@@ -30,6 +32,21 @@
     }
 }
 
+- (Reachability *) reachability{
+    if (_reachability == nil) {
+        if (self.reachabilityServer != nil) {
+            _reachability = [Reachability reachabilityWithHostname:self.reachabilityServer];
+        }
+    }
+    return _reachability;
+}
+
+- (void) setClientSecret:(NSString *)clientSecret{
+    if (_clientSecret != clientSecret) {
+        _clientSecret = clientSecret;
+    }
+}
+
 - (void) setTokenRetriever:(id<UDAuthTokenRetrievable>)tokenRetriever{
     if (_tokenRetriever != tokenRetriever) {
         _tokenRetriever = tokenRetriever;
@@ -39,27 +56,58 @@
     }
 }
 
-- (void) tokenReceived:(UDAuthToken *) token{    
-    if (token != nil && token != self.authToken) {
-        self.authToken = token;
+- (void) tokenReceived:(UDAuthToken *) token{
+    if (token != nil ) {
         
-        NSLog(@"Token Received with ttl: %f",self.authToken.ttl);
+        if (token.type == UDAccessTokenType && token != self.authToken) {
+            _authToken = token;
+            NSLog(@"Auth Token Received with ttl: %f",self.authToken.ttl);
+        }
+        else if (token.type == UDRefreshTokenType && token != self.refreshToken){
+            self.refreshToken = token;
+            NSLog(@"Refresh Token Received with ttl: %f",self.refreshToken.ttl);
+        }
     }
 }
 
 - (void) forceTokenRequest{
-    [self.tokenRetriever requestToken];
+    if (self.refreshToken != nil) {
+        NSLog(@"Request refresh token");
+        [self.tokenRetriever requestTokenWithRefreshToken:self.refreshToken.value ClientID:self.clientID ClientSecret:self.clientSecret];
+    }
+    else{
+        NSLog(@"Request Auth token");
+        [self.tokenRetriever requestToken];
+    }
+}
+
+- (void) authCodeReceived:(NSString *)authCode forRedirectURI:(NSString *)redirectUri{
+    [self.tokenRetriever requestTokenWithAuthCode:authCode ClientID:self.clientID ClientSecret:self.clientSecret];
 }
 
 - (void) checkToken{
     NSLog(@"Check token with ttl %f",self.authToken.ttl);
     
-    if (self.authToken == nil || self.authToken.ttl < 1) {
-            [NSTimer scheduledTimerWithTimeInterval:FORCED_TOKEN_CHECK_INTERVAL target:self selector:@selector(checkToken) userInfo:nil repeats:NO];
+    if ([self.tokenCheckTimer isValid]){
+        [self.tokenCheckTimer invalidate];
     }
     
-    if ((self.authToken == nil || self.authToken.ttl < TOKEN_ACTIVE_LIFETIME) && [Reachability reachabilityWithHostname:self.reachabilityServer].isReachable) {
-        [self.tokenRetriever requestToken];
+    if (self.authToken == nil || self.authToken.ttl < 1) {
+        self.tokenCheckTimer = [NSTimer scheduledTimerWithTimeInterval:FORCED_TOKEN_CHECK_INTERVAL target:self selector:@selector(checkToken) userInfo:nil repeats:NO];
+    }
+    else {
+        self.tokenCheckTimer = [NSTimer scheduledTimerWithTimeInterval:TOKEN_CHECK_INTERVAL target:self selector:@selector(checkToken) userInfo:nil repeats:NO];
+    };
+    
+    if ((self.authToken == nil || self.authToken.ttl < TOKEN_CHECK_INTERVAL*3)) {
+        if (self.reachability != nil) {
+            if (self.reachability.isReachable){
+                [self forceTokenRequest];
+            }
+        }
+        else{
+            [self forceTokenRequest];
+        }
     }
 }
 
@@ -78,21 +126,22 @@
     if (self != nil)
     {
         self.tokenRetriever = [[self class] tokenRetrieverMaker];
-        
-        [NSTimer scheduledTimerWithTimeInterval:TOKEN_CHECK_INTERVAL target:self selector:@selector(checkToken) userInfo:nil repeats:YES];
-        
         // here we set up a NSNotification observer. The Reachability that caused the notification
         // is passed in the object parameter
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(reachabilityChanged:)
-                                                     name:kReachabilityChangedNotification
-                                                   object:nil];
+        if (self.reachability != nil) {
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(reachabilityChanged:)
+                                                         name:kReachabilityChangedNotification
+                                                       object:self.reachability];
+            [self.reachability startNotifier];
+        }
     }
     
-    return self;    
+    return self;
 }
 
 - (void) dealloc{
+    [self.reachability stopNotifier];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

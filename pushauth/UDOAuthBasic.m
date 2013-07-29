@@ -7,13 +7,16 @@
 //
 
 #import "UDOAuthBasic.h"
-#define TOKEN_SERVER_URL @"system.unact.ru"
-#define AUTH_SERVICE_URI @"https://system.unact.ru/asa"
+
+#define CLIENT_ID @"websystem"
+#define PUSHAUTH_SERVICE_URI @"https://system.unact.ru/iproxy/pushauth/"
+#define AUTH_SERVICE_URI @"https://system.unact.ru/iproxy/oauth/"
+#define REACHABILITY_SERVER  @"uoauth.unact.ru"
 
 @implementation UDOAuthBasic
 
 - (NSString *) reachabilityServer{
-    return TOKEN_SERVER_URL;
+    return REACHABILITY_SERVER;
 }
 
 - (NSURLRequest *) authenticateRequest:(NSURLRequest *)request{
@@ -27,16 +30,20 @@
     return resultingRequest;
 }
 
+- (NSString *) clientID {
+    return CLIENT_ID;
+}
+
 + (id) tokenRetrieverMaker{
     UDAuthTokenRetriever *tokenRetriever = [[UDAuthTokenRetriever alloc] init];
     tokenRetriever.authServiceURI = [NSURL URLWithString:AUTH_SERVICE_URI];
     
     UDPushAuthCodeRetriever *codeRetriever = [UDPushAuthCodeRetriever codeRetriever];
-    codeRetriever.requestDelegate.uPushAuthServiceURI = [NSURL URLWithString:AUTH_SERVICE_URI];
+    codeRetriever.requestDelegate.uPushAuthServiceURI = [NSURL URLWithString:PUSHAUTH_SERVICE_URI];
 #if DEBUG
-    [(UDPushAuthRequestBasic *)[codeRetriever requestDelegate] setConstantGetParameters:@"_host=hqvsrv73&app_id=pushauth-dev&_svc=a/UPushAuth/"];
+    [(UDPushAuthRequestBasic *)[codeRetriever requestDelegate] setConstantGetParameters:@"app_id=pushauth-dev"];
 #else
-    [(UDPushAuthRequestBasic *)[codeRetriever requestDelegate] setConstantGetParameters:@"_host=hqvsrv73&app_id=pushauth&_svc=a/UPushAuth/"];
+    [(UDPushAuthRequestBasic *)[codeRetriever requestDelegate] setConstantGetParameters:@"app_id=pushauth"];
 #endif
     tokenRetriever.codeDelegate = codeRetriever;
     
