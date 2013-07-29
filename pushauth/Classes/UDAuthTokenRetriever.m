@@ -79,27 +79,41 @@
     
     if (accessTokenData != nil) {
         UDAuthToken * accessToken = [self tokenFromDict:accessTokenData
-                                    withDefaultLifetime:DEFAULT_ACCESS_TOKEN_LIFETIME];
+                                               withType:UDAccessTokenType
+                                        defaultLifetime:DEFAULT_ACCESS_TOKEN_LIFETIME];
         [self tokenReceived:accessToken];
     }
     
     if (refreshTokenData != nil){
         UDAuthToken * refreshToken = [self tokenFromDict:refreshTokenData
-                                     withDefaultLifetime:DEFAULT_REFRESH_TOKEN_LIFETIME];
+                                                withType:UDRefreshTokenType
+                                         defaultLifetime:DEFAULT_REFRESH_TOKEN_LIFETIME];
         [self tokenReceived:refreshToken];
     }
 }
 
-- (UDAuthToken *) tokenFromDict:(NSDictionary *) tokenData withDefaultLifetime:(NSTimeInterval) defaultLifetime{
+- (UDAuthToken *) tokenFromDict:(NSDictionary *) tokenData
+                       withType:(UDTokenType) tokenType
+                defaultLifetime:(NSTimeInterval) defaultLifetime{
     UDAuthToken *token = nil;
     if (tokenData != nil) {
         NSTimeInterval tokenLifetime = defaultLifetime;
         if (tokenData[@"expireAfter"]) {
             tokenLifetime = [(NSNumber *)tokenData[@"expireAfter"] doubleValue];
         }
-        token = [UDAuthToken accessTokenWithWalue:tokenData[@"token"] Lifetime:tokenLifetime];
+        switch (tokenType) {
+            case UDRefreshTokenType:
+                token = [UDAuthToken refreshTokenWithWalue:tokenData[@"token"]
+                                                  Lifetime:tokenLifetime];
+                break;
+            case UDAccessTokenType:
+                token = [UDAuthToken accessTokenWithWalue:tokenData[@"token"]
+                                                 Lifetime:tokenLifetime];
+                break;
+            default:
+                break;
+        }
     }
-    
     return token;
 }
 
