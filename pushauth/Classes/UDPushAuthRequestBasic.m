@@ -115,14 +115,14 @@
         }
         
         NSString *authCode = [responseData objectForKey:@"code"];
-        NSString *authCodeID = [responseData objectForKey:@"id"];
+        NSNumber *authCodeID = [responseData objectForKey:@"id"];
         
-        if (authCode == nil) {
+        if (!authCode || !authCodeID) {
             NSLog(@"authCode key error");
             return;
         }
         
-        completeonHandler(authCode,authCodeID);
+        completeonHandler(authCode,[authCodeID stringValue]);
     }];
 }
 
