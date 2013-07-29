@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "UDPushAuth"
-  s.version      = "0.2.1"
+  s.version      = "0.3"
   s.summary      = "OAuth-like authorization with apple pushnotifications as a transport for auth_code."
   s.homepage     = "https://github.com/Unact/UDPushAuth"
 
@@ -13,5 +13,4 @@ Pod::Spec.new do |s|
   s.source_files = 'pushauth/Classes/**/*.{h,m}'
   
   s.dependency 'Reachability', '~> 3.1.0'
-  s.dependency 'GData', '~> 1.9.1'
 end
