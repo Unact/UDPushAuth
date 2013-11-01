@@ -32,26 +32,26 @@
     }
 }
 
-- (Reachability *) reachability{
-    if (_reachability == nil) {
-        if (self.reachabilityServer != nil) {
-            _reachability = [Reachability reachabilityWithHostname:self.reachabilityServer];
-        }
-    }
-    return _reachability;
-}
-
 - (void) setClientSecret:(NSString *)clientSecret{
     if (_clientSecret != clientSecret) {
         _clientSecret = clientSecret;
     }
 }
 
+@synthesize tokenRetriever = _tokenRetriever;
+
+-(id<UDAuthTokenRetrievable>)tokenRetriever {
+    if (!_tokenRetriever) {
+        self.tokenRetriever = [[self class] tokenRetrieverMaker];
+    }
+    return _tokenRetriever;
+}
+
 - (void) setTokenRetriever:(id<UDAuthTokenRetrievable>)tokenRetriever{
     if (_tokenRetriever != tokenRetriever) {
         _tokenRetriever = tokenRetriever;
-        if (self.tokenRetriever != nil) {
-            [self.tokenRetriever setDelegate:self];
+        if (_tokenRetriever != nil) {
+            [_tokenRetriever setDelegate:self];
         }
     }
 }
@@ -70,6 +70,30 @@
     }
 }
 
+- (void) checkReachabilityTracking {
+    if (self.reachability) {
+        return;
+    }
+    
+    if (!self.reachabilityServer) {
+        return;
+    }
+    self.reachability = [Reachability reachabilityWithHostname:self.reachabilityServer];
+    if (self.reachability) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(reachabilityChanged:)
+                                                     name:kReachabilityChangedNotification
+                                                   object:self.reachability];
+        [self.reachability startNotifier];
+    }
+}
+
+- (void) stopTrackingReachability {
+    [self.reachability stopNotifier];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    self.reachability = nil;
+}
+
 - (void) forceTokenRequest{
     if (self.refreshToken != nil) {
         NSLog(@"Request refresh token");
@@ -82,6 +106,7 @@
 }
 
 - (void) authCodeReceived:(NSString *)authCode forRedirectURI:(NSString *)redirectUri{
+    [self checkReachabilityTracking];
     [self.tokenRetriever requestTokenWithAuthCode:authCode ClientID:self.clientID ClientSecret:self.clientSecret];
 }
 
@@ -119,30 +144,16 @@
     }
 }
 
-- (id)init
-{
-    self = [super init];
-    
-    if (self != nil)
-    {
-        self.tokenRetriever = [[self class] tokenRetrieverMaker];
-        // here we set up a NSNotification observer. The Reachability that caused the notification
-        // is passed in the object parameter
-        if (self.reachability != nil) {
-            [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(reachabilityChanged:)
-                                                         name:kReachabilityChangedNotification
-                                                       object:self.reachability];
-            [self.reachability startNotifier];
-        }
+- (void) invalidate {
+    if ([self.tokenCheckTimer isValid]) {
+        [self.tokenCheckTimer invalidate];
     }
-    
-    return self;
+    _authToken = nil;
+    [self stopTrackingReachability];
 }
 
 - (void) dealloc{
-    [self.reachability stopNotifier];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self invalidate];
 }
 
 + (id)sharedOAuth
