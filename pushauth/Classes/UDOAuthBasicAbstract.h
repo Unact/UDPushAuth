@@ -21,6 +21,7 @@
 - (void) checkToken;
 - (void) reachabilityChanged:(NSNotification *)notification;
 - (void) setClientSecret:(NSString *) clientSecret;
+- (void) invalidate;
 + (id)sharedOAuth;
 + (id) tokenRetrieverMaker;
 @end
